@@ -7,7 +7,7 @@ function SignIn() {
   const [request, token, promptAsyn] = useGoogle();
 
   useEffect(() => {
-    if (!token) return;
+    token &&
     getUserInfo(token)
       .then((user) => {
         console.log('user', user);
