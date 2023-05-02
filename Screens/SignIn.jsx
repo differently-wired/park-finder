@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from "react-native";
 import { FIREBASE_AUTH } from "../firebaseConfig";
-import { useGoogle, getUserInfo } from "../helpers/googleAuth";
+import { useGoogle, getUserInfo, signInFirebase } from "../helpers/googleAuth";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserInfoContext } from "../contexts/UserInfo";
@@ -18,48 +18,55 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 function SignIn() {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [request, token, promptAsyn] = useGoogle();
+  const [request, accessToken, promptAsyn] = useGoogle();
   const navigation = useNavigation();
 
-  function onSuccess(user) {
+  function onSuccess(firebaseUser) {
     setUserInfo({
-      uid: user.id,
-      email: user.email,
-      family_name: user.family_name,
-      given_name: user.given_name,
-      name: user.name,
-      locale: user.locale,
-      picture: user.picture,
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      username: firebaseUser.displayName,
     });
     navigation.navigate("HomeScreen");
   }
 
   useEffect(() => {
-    token &&
-      getUserInfo(token)
-        .then((user) => {
-          console.log("user", user);
-          onSuccess(user);
+    console.log('accessToken', accessToken)
+    accessToken &&
+      getUserInfo(accessToken)
+        .then((googleUser) => {
+          console.log("googleUser", googleUser);
+          // sign in to Firebase
+          return signInFirebase(accessToken);
+        })
+        .then((firebaseUser) => {
+          console.log("firebaseUser", firebaseUser.user);
+          onSuccess(firebaseUser);
+
+          // create firebase account
+
         })
         .catch((error) => {
           console.log("error", error);
           alert("Sign In Failed!");
         });
-  }, [token]);
+  }, [accessToken]);
 
   const handleSignIn = () => {
+    console.log('handleSignIn', email, password);
     signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
       .then((userCredential) => {
-        console.log(userCredential);
+        console.log('userCredential', userCredential);
         const user = userCredential.user;
-        console.log("Registered with:", user.email);
-        // navigation.navigate("HomeScreen");
-        // onSuccess(user);
+        console.log("Signed in as:", user.email);
+        onSuccess(user);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        console.log("error", error);
+        alert(error.message)
+      });
   };
 
   return (
@@ -71,12 +78,6 @@ function SignIn() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inputContainer}>
           <Text></Text>
-          {/* <TextInput
-            placeholder="Username"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-            style={styles.Input}
-          /> */}
           <TextInput
             placeholder="email"
             value={email}
