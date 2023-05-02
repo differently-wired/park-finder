@@ -26,13 +26,13 @@ function SignIn() {
 
   function onSuccess(user) {
     setUserInfo({
-      uid: user.uid,
+      uid: user.id,
       email: user.email,
       family_name: user.family_name,
       given_name: user.given_name,
-      displayName: user.displayName,
+      name: user.name,
       locale: user.locale,
-      photoURL: user.photoURL,
+      picture: user.picture,
     });
     navigation.navigate("HomeScreen");
   }
@@ -55,9 +55,9 @@ function SignIn() {
       .then((userCredential) => {
         console.log(userCredential);
         const user = userCredential.user;
-        console.log("Signed in as:", user.email);
+        console.log("Registered with:", user.email);
         // navigation.navigate("HomeScreen");
-        onSuccess(user);
+        // onSuccess(user);
       })
       .catch((error) => alert(error.message));
   };
