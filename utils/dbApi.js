@@ -1,22 +1,36 @@
-import { addDoc, collection } from "@firebase/firestore";
+import { setDoc, doc } from "@firebase/firestore";
 import { FIRESTORE_DB } from "../firebaseConfig";
 import { createUserWithEmailAndPassword, getAuth } from "@firebase/auth";
 
 const auth = getAuth();
 
-export const testPost = async () => {
-  const userCredential = await createUserWithEmailAndPassword(
-    auth,
-    "bigknucksron@pickingfights.co.uk",
-    "doyouwantsome"
-  );
-  const user = userCredential.user.email;
-  console.log(user);
-  const doc = await addDoc(collection(FIRESTORE_DB, "Test"), {
-    test: "RonniePickering",
-    userCredentials: user,
-  });
+const handleSignUp = async (email, password, username) => {
+  try {
+    const makeUser = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const uid = auth.currentUser.uid;
+
+    const docRef = doc(FIRESTORE_DB, "user_list", uid);
+
+    const data = { username: username };
+
+    await setDoc(docRef, data);
+
+    const parkingRef = doc(
+      FIRESTORE_DB,
+      "user_list",
+      uid,
+      "parking_info",
+      "parking_info"
+    );
+    await setDoc(parkingRef, { activeParking: false });
+  } catch (err) {
+    alert(err);
+  }
 };
 
-// Example object from signup form to post to Users
-// { email: 'bigRon@knuckles.com', password: 'bigKnucks' }
+export default handleSignUp;
