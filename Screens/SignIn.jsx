@@ -1,9 +1,11 @@
 import { Button, Text, View } from "react-native";
 import { useGoogle, getUserInfo } from "../helpers/googleAuth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { UserInfoContext } from "../contexts/UserInfo";
 
 function SignIn() {
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [user, setUser] = useState(null);
   const [request, token, promptAsyn] = useGoogle();
   const navigation = useNavigation();
@@ -14,6 +16,16 @@ function SignIn() {
       .then((user) => {
         console.log('user', user);
         setUser(user)
+        
+        setUserInfo({
+          uid: user.id,
+          email: user.email,
+          family_name: user.family_name,
+          given_name: user.given_name,
+          name: user.name,
+          locale: user.locale,
+          picture: user.picture,
+        });
         navigation.navigate("HomeScreen");
       })
       .catch((error) => {
