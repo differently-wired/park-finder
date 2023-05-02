@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_AUTH } from "../firebaseConfig"; 
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import {
     KeyboardAvoidingView,
@@ -23,13 +24,13 @@ export default function SignUp() {
     const navigation = useNavigation();
 
     const handleSignUp = () => {
-        // createUserWithEmailAndPassword(auth, email, password)
-        //     .then((userCredential) => {
-        //         const user = userCredential.user;
-        //         console.log("Registered with:", user.email);
-        navigation.navigate("HomeScreen");
-        // })
-        // .catch((error) => alert(error.message));
+        createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log("Registered with:", user.email);
+                navigation.navigate("HomeScreen");
+            })
+            .catch((error) => alert(error.message));
     };
 
     return (
