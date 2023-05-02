@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import handleSignUp from "../utils/dbApi.js";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserAccount } from "../utils/dbApi.js";
 
 import {
   KeyboardAvoidingView,
@@ -22,9 +21,13 @@ export default function SignUp() {
 
   const navigation = useNavigation();
 
-  const signUpSheet = () => {
-    handleSignUp(email, password, username);
-    navigation.navigate("HomeScreen");
+  const handleSignUp = async () => {
+    try {
+      await createUserAccount(email, password, username);
+      navigation.navigate("HomeScreen");
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
@@ -59,7 +62,7 @@ export default function SignUp() {
       </TouchableWithoutFeedback>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={signUpSheet}
+          onPress={handleSignUp}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
