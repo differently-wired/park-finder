@@ -9,64 +9,46 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
-import { FIREBASE_AUTH } from "../firebaseConfig";
-import { useGoogle, getUserInfo, signInFirebase } from "../helpers/googleAuth";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserInfoContext } from "../contexts/UserInfo";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useGoogleAuth, signInWithToken, signInWithEmail } from "../utils/auth";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
-  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const { setUserInfo } = useContext(UserInfoContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [request, accessToken, promptAsyn] = useGoogle();
+  const [request, accessToken, promptAsyn] = useGoogleAuth();
   const navigation = useNavigation();
 
   function onSuccess(firebaseUser) {
     setUserInfo({
       uid: firebaseUser.uid,
       email: firebaseUser.email,
-      username: firebaseUser.displayName,
+      displayName: firebaseUser.displayName,
     });
     navigation.navigate("HomeScreen");
   }
 
+  function onFailure(error) {
+    console.log(error);
+    alert(error);
+  }
+
   useEffect(() => {
-    console.log('accessToken', accessToken)
-    accessToken &&
-      getUserInfo(accessToken)
-        .then((googleUser) => {
-          console.log("googleUser", googleUser);
-          // sign in to Firebase
-          return signInFirebase(accessToken);
-        })
-        .then((firebaseUser) => {
-          console.log("firebaseUser", firebaseUser.user);
-          onSuccess(firebaseUser);
-
-          // create firebase account
-
-        })
-        .catch((error) => {
-          console.log("error", error);
-          alert("Sign In Failed!");
-        });
+    if (!accessToken) return;
+    signInWithToken(accessToken)
+      .then(({ user }) => onSuccess(user))
+      .catch((error) => onError(error));
   }, [accessToken]);
 
   const handleSignIn = () => {
-    console.log('handleSignIn', email, password);
-    signInWithEmailAndPassword(FIREBASE_AUTH, email, password)
-      .then((userCredential) => {
-        console.log('userCredential', userCredential);
-        const user = userCredential.user;
-        console.log("Signed in as:", user.email);
-        onSuccess(user);
-      })
-      .catch((error) => {
-        console.log("error", error);
-        alert(error.message)
-      });
+    signInWithEmail(email, password)
+      .then(({ user }) => onSuccess(user))
+      .catch((error) => onError(error));
   };
 
   return (
