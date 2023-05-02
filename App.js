@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, Button, StyleSheet, Text, View } from "react-native";
-import { testPost } from "./utils/dbApi";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { testPost } from "./utils/dbApi";
 
 export default function App() {
