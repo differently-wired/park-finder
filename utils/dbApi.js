@@ -1,36 +1,24 @@
 import { setDoc, doc } from "@firebase/firestore";
-import { FIRESTORE_DB } from "../firebaseConfig";
-import { createUserWithEmailAndPassword, getAuth } from "@firebase/auth";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
 
-const auth = getAuth();
+export const createUserAccount = async (email, password, username) => {
+  await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
 
-const handleSignUp = async (email, password, username) => {
-  try {
-    const makeUser = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+  const uid = FIREBASE_AUTH.currentUser.uid;
 
-    const uid = auth.currentUser.uid;
+  // create user document
+  const docRef = doc(FIRESTORE_DB, "user_list", uid);
+  const data = { username: username };
+  await setDoc(docRef, data);
 
-    const docRef = doc(FIRESTORE_DB, "user_list", uid);
-
-    const data = { username: username };
-
-    await setDoc(docRef, data);
-
-    const parkingRef = doc(
-      FIRESTORE_DB,
-      "user_list",
-      uid,
-      "parking_info",
-      "parking_info"
-    );
-    await setDoc(parkingRef, { activeParking: false });
-  } catch (err) {
-    alert(err);
-  }
+  // create parking info sub document
+  const parkingRef = doc(
+    FIRESTORE_DB,
+    "user_list",
+    uid,
+    "parking_info",
+    "parking_info"
+  );
+  await setDoc(parkingRef, { activeParking: false });
 };
-
-export default handleSignUp;
