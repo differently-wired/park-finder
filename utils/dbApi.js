@@ -11,7 +11,7 @@ export const createUserAccount = async (uid, username) => {
     activeParking: false,
   };
   await setDoc(docRef, data);
-
+  return data;
   // create parking info sub document
   // const parkingRef = doc(
   //   FIRESTORE_DB,

@@ -31,13 +31,17 @@ export default function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      const user = await singUpWithEmail(email, password, username);
-      await createUserAccount(user.uid, username);
+      const firebaseUser = await singUpWithEmail(email, password, username);
+      const user = await createUserAccount(firebaseUser.uid, username);
+      console.log('user', user);
       setUserInfo({
-        uid: user.uid,
-        email: user.email,
-        username: username,
-      });
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        username: user.username,
+        defaultParkTime: user.defaultParkTime,
+        defaultAlertBefore: user.defaultAlertBefore,
+        activeParking: user.activeParking,
+    });
       navigation.navigate("Home Screen");
     } catch (err) {
       console.log(err);
