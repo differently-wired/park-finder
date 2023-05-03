@@ -1,6 +1,5 @@
 import { TOMTOM_DEV_KEY } from "@env";
-import TomTomMaps from "../Components/TomTomMaps";
-console.log(TomTomMaps);
+// import TomTomMaps from "../Components/TomTomMaps";
 export default `
 <div>
     <style>

@@ -63,8 +63,6 @@ export default function TomTomMaps() {
         style={styles.map}
         originWhitelist={["*"]}
         source={{ html: mapTemplate }}
-        latitude={location.coords.latitude}
-        longitude={location.coords.longitude}
       />
     </View>
   );
