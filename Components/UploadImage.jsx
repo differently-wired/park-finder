@@ -56,7 +56,10 @@ const UploadImage = () => {
       {imageUri && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />
-          <Button title="Upload Image" onPress={uploadImagePress} />
+          <Button
+            title="This will upload image, but need form submit too"
+            onPress={uploadImagePress}
+          />
         </>
       )}
     </View>
