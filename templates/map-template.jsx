@@ -1,6 +1,9 @@
 import { TOMTOM_DEV_KEY } from "@env";
-// import TomTomMaps from "../Components/TomTomMaps";
-export default `
+import TomTomMaps from "../Components/TomTomMaps";
+
+export const MapTemplate = ({ location }) => {
+    console.log(location)
+        `
 <div>
     <style>
             html, body {
@@ -38,3 +41,5 @@ export default `
     </script>
 </div>
 `;
+
+}
