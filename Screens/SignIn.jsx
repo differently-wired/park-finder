@@ -12,7 +12,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserInfoContext } from "../contexts/UserInfo";
-import { useGoogleAuth, signInWithToken, signInWithEmail } from "../utils/auth";
+import { useGoogleAuth, signInWithGoogle, signInWithEmail } from "../utils/auth";
 import * as WebBrowser from "expo-web-browser";
 
 WebBrowser.maybeCompleteAuthSession();
@@ -28,9 +28,9 @@ function SignIn() {
     setUserInfo({
       uid: firebaseUser.uid,
       email: firebaseUser.email,
-      displayName: firebaseUser.displayName,
+      username: firebaseUser.displayName,
     });
-    navigation.navigate("HomeScreen");
+    navigation.navigate("Home Screen");
   }
 
   function onFailure(error) {
@@ -40,15 +40,15 @@ function SignIn() {
 
   useEffect(() => {
     if (!accessToken) return;
-    signInWithToken(accessToken)
-      .then(({ user }) => onSuccess(user))
-      .catch((error) => onError(error));
+    signInWithGoogle(accessToken)
+    .then((credential) => onSuccess(credential.user))
+    .catch((error) => onFailure(error));
   }, [accessToken]);
 
   const handleSignIn = () => {
     signInWithEmail(email, password)
-      .then(({ user }) => onSuccess(user))
-      .catch((error) => onError(error));
+      .then((credential) => onSuccess(credential.user))
+      .catch((error) => onFailure(error));
   };
 
   return (
