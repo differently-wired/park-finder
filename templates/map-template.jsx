@@ -1,4 +1,4 @@
-import { TOMTOM_DEV_KEY } from '@env'
+import { TOMTOM_DEV_KEY } from "@env";
 
 export default `
 <div>
@@ -25,7 +25,7 @@ export default `
         let map = tt.map({
             key:'${TOMTOM_DEV_KEY}',
             container: 'map',
-            center: [-121.913, 37.361],
+            center: [-2.238237, 53.472149],
             zoom: 15
         });
         
