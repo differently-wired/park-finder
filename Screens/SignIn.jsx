@@ -69,7 +69,7 @@ function SignIn() {
   }, [accessToken]);
 
   const handleSignIn = () => {
-    signInWithEmail(email, password)
+    signInWithEmail(email.trim(), password)
       .then((credential) => onSuccess(credential.user))
       .catch((error) => onFailure(error));
   };
