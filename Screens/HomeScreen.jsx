@@ -1,14 +1,17 @@
-import { useContext } from "react";
-import { Text, View } from "react-native";
+import * as React from "react";
+import { Button, View } from "react-native";
+import TomTomMaps from "../Components/TomTomMaps";
+import NavBar from "../Components/NavBar";
 import { UserInfoContext } from "../contexts/UserInfo";
-import TomTomMaps from '../Components/TomTomMaps';
+import { useContext } from "react";
 
 export default function Homescreen() {
-    const { userInfo } = useContext(UserInfoContext);
+  const { userInfo } = useContext(UserInfoContext);
 
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} >
-            <TomTomMaps />
-        </View>
-    );
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <NavBar />
+      <TomTomMaps />
+    </View>
+  );
 }

@@ -1,4 +1,4 @@
-import { TOMTOM_DEV_KEY } from "@env"
+import { TOMTOM_DEV_KEY } from "@env";
 
 export default `
 <div>
