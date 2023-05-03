@@ -15,6 +15,7 @@ export default function Homescreen() {
             <Text>{userInfo?.uid}</Text>
             <Text>{userInfo?.defaultParkTime}</Text>
             <Text>{userInfo?.defaultAlertBefore}</Text>
+            <Text>{userInfo?.activeParking ? "true" : "false"}</Text>
         </View>
     );
 }

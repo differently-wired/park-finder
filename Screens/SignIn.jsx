@@ -28,12 +28,14 @@ function SignIn() {
   function onSuccess(firebaseUser) {
     getUserAccount(firebaseUser.uid)
     .then((user) => {
+      console.log('user', user);
       setUserInfo({
         uid: firebaseUser.uid,
         email: firebaseUser.email,
         username: user.username,
         defaultParkTime: user.defaultParkTime,
         defaultAlertBefore: user.defaultAlertBefore,
+        activeParking: user.activeParking
       });
       navigation.navigate("Home Screen");
     })
