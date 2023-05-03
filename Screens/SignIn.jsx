@@ -2,6 +2,7 @@ import {
   Button,
   Text,
   View,
+  Image,
   StyleSheet,
   TouchableWithoutFeedback,
   TextInput,
@@ -104,16 +105,25 @@ function SignIn() {
         >
           <Text style={styles.buttonOutlineText}>Sign in</Text>
         </TouchableOpacity>
-        <Button
+        {/* <Button
           title="Connect with Google"
           disabled={!request}
           onPress={() => promptAsyn()}
-        />
+        /> */}
+        <TouchableOpacity disabled={!request} onPress={() => promptAsyn()}>
+          <View style={styles.GoogleButton}>
+            <Image
+              style={styles.GoogleImage}
+              source={require("../assets/google-img.png")}
+            />
+            <Text style={styles.GoogleButtonText}>Sign in with Google</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.pageLink}>
-        <Text>Dont have an account</Text>
+        <Text>Don't have an account</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Sign Up")}>
-          <Text style={styles.signIn}>Sign Up</Text>
+          <Text style={styles.signUp}> Sign Up</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -160,14 +170,16 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   buttonOutline: {
+    padding: 15,
     borderWidth: 2,
     borderColor: "white",
     backgroundColor: "#24a0ed",
+    marginBottom: 30,
   },
   buttonOutlineText: {
     color: "white",
     fontSize: 18,
-    // fontWeight: "#24a0ed",
+    fontWeight: "bold",
   },
   pageLink: {
     flexDirection: "row",
@@ -176,9 +188,35 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
   },
-  signIn: {
+  signUp: {
     color: "#24a0ed",
     fontWeight: "bold",
+  },
+  twoButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  GoogleButton: {
+    padding: 15,
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: "black",
+    justifyContent: "center",
+    alignitems: "center",
+    flexDirection: "row",
+  },
+  GoogleImage: {
+    width: 20,
+    height: 20,
+    marginLeft: 5,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  GoogleButtonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "grey",
+    marginLeft: 10,
   },
 });
 
