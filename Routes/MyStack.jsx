@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 export default function MyStack() {
     return (
-        <Stack.Navigator initialRouteName='Sign Up'>
+        <Stack.Navigator initialRouteName='Sign In'>
             <Stack.Screen name='Sign In' component={SignIn} />
             <Stack.Screen name='Sign Up' component={SignUp} />
             <Stack.Screen name='Home Screen' component={HomeScreen} />

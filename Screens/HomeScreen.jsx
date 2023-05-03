@@ -13,7 +13,8 @@ export default function Homescreen() {
             <Text>{userInfo?.username}</Text>
             <Text>{userInfo?.email}</Text>
             <Text>{userInfo?.uid}</Text>
-
+            <Text>{userInfo?.defaultParkTime}</Text>
+            <Text>{userInfo?.defaultAlertBefore}</Text>
         </View>
     );
 }

@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { UserInfoContext } from "../contexts/UserInfo";
 import { useGoogleAuth, signInWithGoogle, signInWithEmail } from "../utils/auth";
 import * as WebBrowser from "expo-web-browser";
+import { createUserAccount, getUserAccount } from "../utils/dbApi";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -25,12 +26,18 @@ function SignIn() {
   const navigation = useNavigation();
 
   function onSuccess(firebaseUser) {
-    setUserInfo({
-      uid: firebaseUser.uid,
-      email: firebaseUser.email,
-      username: firebaseUser.displayName,
-    });
-    navigation.navigate("Home Screen");
+    getUserAccount(firebaseUser.uid)
+    .then((user) => {
+      setUserInfo({
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        username: user.username,
+        defaultParkTime: user.defaultParkTime,
+        defaultAlertBefore: user.defaultAlertBefore,
+      });
+      navigation.navigate("Home Screen");
+    })
+    .catch((error) => onFailure(error));
   }
 
   function onFailure(error) {
@@ -41,8 +48,17 @@ function SignIn() {
   useEffect(() => {
     if (!accessToken) return;
     signInWithGoogle(accessToken)
-    .then((credential) => onSuccess(credential.user))
-    .catch((error) => onFailure(error));
+      .then((credential) => {
+        const firebaseUser = credential.user;
+        return Promise.all([
+          firebaseUser,
+          createUserAccount(firebaseUser.uid, firebaseUser.displayName)
+        ])
+      })
+      .then(([firebaseUser, _]) => {
+        onSuccess(firebaseUser)
+      })
+      .catch((error) => onFailure(error));
   }, [accessToken]);
 
   const handleSignIn = () => {
