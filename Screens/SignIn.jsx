@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   Input: {
     backgroundColor: "#f2f2f2",
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 15,
     borderRadius: 15,
     marginTop: 25,
     // padding: 55,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   buttonOutline: {
     padding: 15,
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: "#24a0ed",
     backgroundColor: "#24a0ed",
     marginBottom: 30,
   },
