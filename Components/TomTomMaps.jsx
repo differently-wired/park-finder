@@ -4,7 +4,7 @@ import { StyleSheet, View, Button, TextInput } from 'react-native';
 import { WebView } from 'react-native-webview';
 import mapTemplate from '../templates/map-template';
 
-export default function TomTomMaps() {
+export default function App() {
     let webRef = undefined;
     let [mapCenter, setMapCenter] = useState('-121.913, 37.361');
 
@@ -24,7 +24,7 @@ export default function TomTomMaps() {
                     style={styles.textInput}
                     onChangeText={setMapCenter}
                     value={mapCenter}></TextInput>
-                <Button title="Set Center" onPress={onButtonPress}></Button>
+                {/* <Button title="Set Center" onPress={onButtonPress}></Button> */}
             </View>
             <WebView
                 ref={(r) => (webRef = r)}
@@ -36,3 +36,18 @@ export default function TomTomMaps() {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'column',
+        flex: 1,
+        width: '100%',
+        height: '85%',
+    },
+    map: {
+        width: '100%',
+        height: '85%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
