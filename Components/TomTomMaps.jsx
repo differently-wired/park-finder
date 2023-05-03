@@ -6,7 +6,7 @@ import mapTemplate from "../templates/map-template";
 import Device from "expo-location";
 import * as Location from "expo-location";
 
-export default function App() {
+export default function TomTomMaps() {
   let webRef = undefined;
   let [mapCenter, setMapCenter] = useState("");
   const [location, setLocation] = useState(null);
@@ -21,6 +21,9 @@ export default function App() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
+      console.log(location.coords.longitude);
+      console.log(location.coords.latitude);
+
       setLocation(location);
     })();
   }, []);
@@ -31,6 +34,8 @@ export default function App() {
   } else if (location) {
     text = JSON.stringify(location);
   }
+
+  //   map.setMyLocationEnabled(true);
 
   //   const onButtonPress = () => {
   //     const [lng, lat] = mapCenter.split(",");
@@ -58,12 +63,8 @@ export default function App() {
         style={styles.map}
         originWhitelist={["*"]}
         source={{ html: mapTemplate }}
-        // initialRegion={{
-        //   latitude: 53.480759,
-        //   longitude: -2.242631,
-        //   latitudeDelta: 0.0622,
-        //   longitudeDelta: 0.0121,
-        // }}
+        latitude={location.coords.latitude}
+        longitude={location.coords.longitude}
       />
     </View>
   );

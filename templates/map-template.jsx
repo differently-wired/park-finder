@@ -1,5 +1,6 @@
 import { TOMTOM_DEV_KEY } from "@env";
-
+import TomTomMaps from "../Components/TomTomMaps";
+console.log(TomTomMaps);
 export default `
 <div>
     <style>
@@ -28,11 +29,13 @@ export default `
             center: [-2.238237, 53.472149],
             zoom: 15
         });
+        map.setMyLocationEnabled(true);
         
         map.on('dragend', function() {
             let center = map.getCenter();
             window.ReactNativeWebView.postMessage(center.lng.toFixed(3) + ", " + center.lat.toFixed(3));
         })
+
     </script>
 </div>
 `;
