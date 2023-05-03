@@ -14,13 +14,18 @@ import {
   View,
   Keyboard,
   Platform,
+  useColorScheme,
 } from "react-native";
 
 export default function SignUp() {
+  const theme = useColorScheme();
+  const isDarkTheme = theme === "dark";
+
   const { setUserInfo } = useContext(UserInfoContext);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigation = useNavigation();
 
@@ -32,10 +37,9 @@ export default function SignUp() {
         uid: user.uid,
         email: user.email,
         username: username,
-      });  
+      });
       navigation.navigate("Home Screen");
-    } 
-    catch (err) {
+    } catch (err) {
       console.log(err);
       alert(err);
     }
@@ -50,22 +54,29 @@ export default function SignUp() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inputContainer}>
           <TextInput
-            placeholder="Username"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-            style={styles.Input}
-          />
-
-          <TextInput
             placeholder="Email"
             value={email}
             onChangeText={(text) => setEmail(text)}
             style={styles.Input}
           />
           <TextInput
+            placeholder="Display Name"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
+            style={styles.Input}
+          />
+
+          <TextInput
             placeholder="Password"
             value={password}
             onChangeText={(text) => setPassword(text)}
+            style={styles.Input}
+            secureTextEntry
+          />
+          <TextInput
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChangeText={(text) => setConfirmPassword(text)}
             style={styles.Input}
             secureTextEntry
           />
@@ -89,17 +100,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   inputContainer: {
-    width: "80%",
+    width: "60%",
   },
   Input: {
-    backgroundColor: "white",
+    backgroundColor: "#f2f2f2",
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 25,
+    // padding: 55,
   },
   buttonContainer: {
     width: "60%",
@@ -117,15 +129,16 @@ const styles = StyleSheet.create({
   buttonOutline: {
     borderWidth: 2,
     borderColor: "white",
+    backgroundColor: "#24a0ed",
   },
   buttonOutlineText: {
-    color: "black",
+    color: "white",
     fontSize: 18,
-    fontWeight: "bold",
+    // fontWeight: "#24a0ed",
   },
   heading: {
-    color: "white",
-    fontSize: 20,
+    color: "black",
+    fontSize: 40,
     margin: 20,
   },
 });

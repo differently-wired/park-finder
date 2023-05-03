@@ -8,11 +8,16 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
+  Dimensions,
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserInfoContext } from "../contexts/UserInfo";
-import { useGoogleAuth, signInWithGoogle, signInWithEmail } from "../utils/auth";
+import {
+  useGoogleAuth,
+  signInWithGoogle,
+  signInWithEmail,
+} from "../utils/auth";
 import * as WebBrowser from "expo-web-browser";
 import { createUserAccount, getUserAccount } from "../utils/dbApi";
 
@@ -27,19 +32,19 @@ function SignIn() {
 
   function onSuccess(firebaseUser) {
     getUserAccount(firebaseUser.uid)
-    .then((user) => {
-      console.log('user', user);
-      setUserInfo({
-        uid: firebaseUser.uid,
-        email: firebaseUser.email,
-        username: user.username,
-        defaultParkTime: user.defaultParkTime,
-        defaultAlertBefore: user.defaultAlertBefore,
-        activeParking: user.activeParking
-      });
-      navigation.navigate("Home Screen");
-    })
-    .catch((error) => onFailure(error));
+      .then((user) => {
+        console.log("user", user);
+        setUserInfo({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          username: user.username,
+          defaultParkTime: user.defaultParkTime,
+          defaultAlertBefore: user.defaultAlertBefore,
+          activeParking: user.activeParking,
+        });
+        navigation.navigate("Home Screen");
+      })
+      .catch((error) => onFailure(error));
   }
 
   function onFailure(error) {
@@ -54,11 +59,11 @@ function SignIn() {
         const firebaseUser = credential.user;
         return Promise.all([
           firebaseUser,
-          createUserAccount(firebaseUser.uid, firebaseUser.displayName)
-        ])
+          createUserAccount(firebaseUser.uid, firebaseUser.displayName),
+        ]);
       })
       .then(([firebaseUser, _]) => {
-        onSuccess(firebaseUser)
+        onSuccess(firebaseUser);
       })
       .catch((error) => onFailure(error));
   }, [accessToken]);
@@ -77,7 +82,6 @@ function SignIn() {
       <Text style={styles.heading}>Welcome</Text>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inputContainer}>
-          <Text></Text>
           <TextInput
             placeholder="email"
             value={email}
@@ -89,6 +93,7 @@ function SignIn() {
             value={password}
             onChangeText={(text) => setPassword(text)}
             style={styles.Input}
+            secureTextEntry
           />
         </View>
       </TouchableWithoutFeedback>
@@ -105,6 +110,12 @@ function SignIn() {
           onPress={() => promptAsyn()}
         />
       </View>
+      <View style={styles.pageLink}>
+        <Text>Dont have an account</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Sign Up")}>
+          <Text style={styles.signIn}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -116,19 +127,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
+    // width: Dimensions.get("window"),
+    // height: Dimensions.get("window"),
   },
-  heading: { color: "black", fontSize: 20, margin: 20 },
+  heading: { color: "black", fontSize: 40, margin: 20 },
   user: {
     justifyContent: "center",
     textAlign: "center",
   },
   Input: {
-    textAlign: "center",
-    backgroundColor: "white",
+    backgroundColor: "#f2f2f2",
     paddingHorizontal: 15,
     paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
+    borderRadius: 15,
+    marginTop: 25,
+    // padding: 55,
   },
   inputContainer: {
     width: "80%",
@@ -138,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 15,
   },
   buttonContainer: {
     width: "60%",
@@ -146,14 +159,26 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginTop: 30,
   },
-  buttonOutlineText: {
-    color: "black",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   buttonOutline: {
     borderWidth: 2,
     borderColor: "white",
+    backgroundColor: "#24a0ed",
+  },
+  buttonOutlineText: {
+    color: "white",
+    fontSize: 18,
+    // fontWeight: "#24a0ed",
+  },
+  pageLink: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 20,
+  },
+  signIn: {
+    color: "#24a0ed",
+    fontWeight: "bold",
   },
 });
 
