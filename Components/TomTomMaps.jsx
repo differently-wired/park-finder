@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, View, Button, TextInput } from "react-native";
 import { WebView } from "react-native-webview";
-import mapTemplate, { MapTemplate } from "../templates/map-template";
-import Device from "expo-location";
+import { MapTemplate } from "../templates/map-template";
+// import Device from "expo-location";
 import * as Location from "expo-location";
 
 export default function TomTomMaps() {
+
     let webRef = undefined;
     let [mapCenter, setMapCenter] = useState("");
     const [location, setLocation] = useState(null);
@@ -26,7 +27,7 @@ export default function TomTomMaps() {
             setLocation({ longitude, latitude })
 
         })();
-    }, [ ]);
+    }, []);
     // console.log(location)
 
     let text = "Waiting..";
@@ -58,14 +59,25 @@ export default function TomTomMaps() {
                     value={mapCenter}
                 ></TextInput>
             </View>
+            {/* <WebView
+                ref={(r) => (webRef = r)}
+                onMessage={handleMapEvent}
+                style={styles.map}
+                originWhitelist={["*"]}
+                source={MapTemplate}
+                location={location}
+            /> */}
             <WebView
                 ref={(r) => (webRef = r)}
                 onMessage={handleMapEvent}
                 style={styles.map}
                 originWhitelist={["*"]}
-                source={{ html: mapTemplate }}
-                location={location}
+                source={{
+                    html: MapTemplate( location ),
+                    // baseUrl: "web/",
+                }}
             />
+
 
         </View>
     );

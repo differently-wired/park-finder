@@ -1,9 +1,9 @@
 import { TOMTOM_DEV_KEY } from "@env";
-import TomTomMaps from "../Components/TomTomMaps";
 
-export const MapTemplate = ({ location }) => {
+
+export const MapTemplate = (location) => {
     console.log(location)
-        `
+    return `
 <div>
     <style>
             html, body {
