@@ -1,10 +1,8 @@
 import { setDoc, doc, getDoc } from "@firebase/firestore";
 import {
-  FIREBASE_AUTH,
   FIRESTORE_DB,
   FIREBASE_STORAGE,
 } from "../firebaseConfig";
-import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
 import { ref, uploadBytes } from "firebase/storage";
 
 // create user account and user document ---------------------------------------
@@ -14,7 +12,7 @@ export const createUserAccount = async (uid, username) => {
   const data = {
     username: username,
     defaultParkTime: 60,
-    defaultAlertBefore: 5,
+    defaultReminder: 5,
     activeParking: false,
   };
   await setDoc(docRef, data);
