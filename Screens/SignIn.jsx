@@ -26,8 +26,8 @@ WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
   const { setUserInfo } = useContext(UserInfoContext);
-  const [email, setEmail] = useState("kenchan1@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [request, accessToken, promptAsyn] = useGoogleAuth();
   const navigation = useNavigation();
 
@@ -57,6 +57,7 @@ function SignIn() {
         const firebaseUser = credential.user;
         return Promise.all([
           firebaseUser,
+          // don't return, just ignore on any errors
           createUserAccount(firebaseUser.uid, firebaseUser.displayName),
         ]);
       })
