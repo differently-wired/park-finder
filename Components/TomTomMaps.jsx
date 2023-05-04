@@ -3,14 +3,14 @@ import { useState } from "react";
 import { StyleSheet, View, Button, TextInput } from "react-native";
 import { WebView } from "react-native-webview";
 import { MapTemplate } from "../templates/map-template";
-// import Device from "expo-location";
 import * as Location from "expo-location";
 
 export default function TomTomMaps() {
 
+    // webRef to be used for scroller
     let webRef = undefined;
     let [mapCenter, setMapCenter] = useState("");
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState({});
     const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function TomTomMaps() {
 
         })();
     }, []);
-    // console.log(location)
+
 
     let text = "Waiting..";
     if (errorMsg) {
@@ -37,14 +37,6 @@ export default function TomTomMaps() {
         text = JSON.stringify(location);
     }
 
-    //   map.setMyLocationEnabled(true);
-
-    //   const onButtonPress = () => {
-    //     const [lng, lat] = mapCenter.split(",");
-    //     webRef.injectJavaScript(
-    //       `map.setCenter([${parseFloat(lng)}, ${parseFloat(lat)}])`
-    //     );
-    //   };
 
     const handleMapEvent = (event) => {
         setMapCenter(event.nativeEvent.data);
@@ -73,8 +65,7 @@ export default function TomTomMaps() {
                 style={styles.map}
                 originWhitelist={["*"]}
                 source={{
-                    html: MapTemplate( location ),
-                    // baseUrl: "web/",
+                    html: MapTemplate(location)
                 }}
             />
 
