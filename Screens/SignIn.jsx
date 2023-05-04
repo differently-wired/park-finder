@@ -34,7 +34,7 @@ function SignIn() {
   function onSuccess(firebaseUser) {
     getUserAccount(firebaseUser.uid)
       .then((user) => {
-        // console.log("user", user);
+        console.log("user", user);
         setUserInfo({
           uid: firebaseUser.uid,
           email: firebaseUser.email,
@@ -49,7 +49,7 @@ function SignIn() {
   }
 
   function onFailure(error) {
-    // console.log(error);
+    console.log(error);
     alert(error);
   }
 
