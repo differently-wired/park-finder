@@ -31,9 +31,12 @@ export default function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      const firebaseUser = await singUpWithEmail(email.trim(), password, username.trim());
+      const firebaseUser = await singUpWithEmail(
+        email.trim(),
+        password,
+        username.trim()
+      );
       const user = await createUserAccount(firebaseUser.uid, username);
-      console.log('user', user);
       setUserInfo({
         uid: firebaseUser.uid,
         email: firebaseUser.email,
@@ -41,10 +44,9 @@ export default function SignUp() {
         defaultParkTime: user.defaultParkTime,
         defaultAlertBefore: user.defaultAlertBefore,
         activeParking: user.activeParking,
-    });
+      });
       navigation.navigate("Home Screen");
     } catch (err) {
-      console.log(err);
       alert(err);
     }
   };

@@ -1,15 +1,7 @@
 import { TOMTOM_DEV_KEY } from "@env";
 
 export const MapTemplate = (location) => {
-  // Make sure that location is an object with latitude and longitude properties
-  // if (!location || typeof location !== "object" || !location.latitude || !location.longitude) {
-  //     return "Invalid location";
-  // }
-
-  const { longitude, latitude } = location
-  console.log(longitude, latitude)
-
-
+  const { longitude, latitude } = location;
   return `
     <div>
       <style>
@@ -45,7 +37,10 @@ export const MapTemplate = (location) => {
           window.ReactNativeWebView.postMessage(center.lng.toFixed(3) + ", " + center.lat.toFixed(3));
         })
 
+        
       </script>
     </div>
   `;
-}
+};
+
+// var marker = new tt.Marker().setLngLat([${longitude}, ${latitude}]).addTo(map)
