@@ -9,34 +9,12 @@ export default function TomTomMaps() {
   // webRef to be used for scroller
   let webRef = undefined;
   let [mapCenter, setMapCenter] = useState("");
-  const [location, setLocation] = useState({});
+  const [userLocation, setUserLocation] = useState({});
+  const [carLocation, setCarLocation] = useState({});
   const [errorMsg, setErrorMsg] = useState(null);
-  // const [marker, setMarker] = useState([
-  //   {
-  //     id: 1,
-  //     title: "SVG icon",
-  //     description: "This is an SVG marker",
-  //     icon: require("../assets/favicon.png"),
-  //     latlng: {
-  //       latitude: 42.73919549715691,
-  //       longitude: -120.72217631449985,
-  //     },
-  //   },
-  // ]);
-
-  // useEffect(() => {
-  //   setMarker((marker) => {
-  //     const { longitude, latitude } = location;
-  //     console.log(location);
-  //     const updatedCoords = {
-  //       ...marker,
-  //     };
-  //     console.log(updatedCoords, "<<<<<cords update ");
-  //     console.log(marker, "marker");
-  //   });
-  // }, [location]);
 
   useEffect(() => {
+    // get user location
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -44,18 +22,23 @@ export default function TomTomMaps() {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      let currentLocation = await Location.getCurrentPositionAsync({});
 
-      const { longitude, latitude } = location.coords;
-      setLocation({ longitude, latitude });
+      const { longitude, latitude } = currentLocation.coords;
+      setUserLocation({ longitude, latitude });
     })();
+
+    // get pinned car location
+    // TODO change this to get the pinned location from the database
+    // If there is no pinned location. DO NOT set this and marker will not appear.
+    // EXAMPLE: setCarLocation({ longitude: -2.697894, latitude: 53.553993 });
   }, []);
 
   let text = "Waiting...";
   if (errorMsg) {
     text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
+  } else if (userLocation) {
+    text = JSON.stringify(userLocation);
   }
 
   const handleMapEvent = (event) => {
@@ -77,7 +60,7 @@ export default function TomTomMaps() {
         style={styles.map}
         originWhitelist={["*"]}
         source={{
-          html: MapTemplate(location),
+          html: MapTemplate(userLocation, carLocation),
         }}
       />
     </View>
