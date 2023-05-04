@@ -11,7 +11,7 @@ export const createUserAccount = async (uid, username) => {
   const docRef = doc(FIRESTORE_DB, "user_list", uid);
   const data = {
     username: username,
-    defaultParkTime: 60,
+    defaultParkDuration: 60,
     defaultReminder: 5,
     activeParking: false,
   };
@@ -31,7 +31,7 @@ export const createUserAccount = async (uid, username) => {
 export const getUserAccount = async (uid) => {
   const userRef = doc(FIRESTORE_DB, "user_list", uid);
   return getDoc(userRef).then((userSnap) => {
-    console.log("userSnap", userSnap);
+    // console.log("userSnap", userSnap);
     if (userSnap.exists()) {
       return userSnap.data();
     } else {
