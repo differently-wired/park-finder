@@ -11,6 +11,7 @@ export async function addParking(parkObj) {
   // duration
   // reminder
   // notes
+  // pcitureUrl
 
   const parkRef = collection(FIRESTORE_DB, 'parkings')
   const parkDoc = {
