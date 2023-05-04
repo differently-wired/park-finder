@@ -34,14 +34,11 @@ function SignIn() {
   function onSuccess(firebaseUser) {
     getUserAccount(firebaseUser.uid)
       .then((user) => {
-        console.log("user", user);
+        // console.log("user", user);
         setUserInfo({
           uid: firebaseUser.uid,
           email: firebaseUser.email,
-          username: user.username,
-          defaultParkTime: user.defaultParkTime,
-          defaultAlertBefore: user.defaultAlertBefore,
-          activeParking: user.activeParking,
+          ...user,
         });
         navigation.navigate("Home Screen");
       })
@@ -60,6 +57,7 @@ function SignIn() {
         const firebaseUser = credential.user;
         return Promise.all([
           firebaseUser,
+          // don't return, just ignore on any errors
           createUserAccount(firebaseUser.uid, firebaseUser.displayName),
         ]);
       })

@@ -37,7 +37,7 @@ export const signInWithEmail = (email, password) => {
 }
 
 export const singUpWithEmail = (email, password, username) => {
-  console.log('singUpWithEmail', email, password, username);
+  // console.log('singUpWithEmail', email, password, username);
   // create user account
   return createUserWithEmailAndPassword(FIREBASE_AUTH, email, password)
     .then((credential) => {
