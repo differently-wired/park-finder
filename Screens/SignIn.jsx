@@ -26,22 +26,19 @@ WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
   const { setUserInfo } = useContext(UserInfoContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("kenchan1@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [request, accessToken, promptAsyn] = useGoogleAuth();
   const navigation = useNavigation();
 
   function onSuccess(firebaseUser) {
     getUserAccount(firebaseUser.uid)
       .then((user) => {
-        console.log("user", user);
+        // console.log("user", user);
         setUserInfo({
           uid: firebaseUser.uid,
           email: firebaseUser.email,
-          username: user.username,
-          defaultParkTime: user.defaultParkTime,
-          defaultAlertBefore: user.defaultAlertBefore,
-          activeParking: user.activeParking,
+          ...user,
         });
         navigation.navigate("Home Screen");
       })
