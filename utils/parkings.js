@@ -48,7 +48,7 @@ export async function getUserParkedCar(uid) {
 
   const q = query(
     userParkRef,
-    orderBy("timestamp"),
+    orderBy("timestamp", "desc"),
     limit(1)
   );
 
