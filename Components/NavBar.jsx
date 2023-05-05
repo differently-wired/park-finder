@@ -27,7 +27,8 @@ export default NavBar;
 const styles = StyleSheet.create({
   button: {
     position: "absolute",
-    bottom: 0,
+    //increase bottom to move up above navbar
+    bottom: 100,
     width: 100,
     height: 100,
     borderRadius: 100 / 2,
