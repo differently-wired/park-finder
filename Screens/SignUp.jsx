@@ -31,7 +31,11 @@ export default function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      const firebaseUser = await singUpWithEmail(email.trim(), password, username.trim());
+      const firebaseUser = await singUpWithEmail(
+        email.trim(),
+        password,
+        username.trim()
+      );
       const user = await createUserAccount(firebaseUser.uid, username);
       // console.log('user', user);
       setUserInfo({

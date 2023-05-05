@@ -1,5 +1,12 @@
-import { Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "react-native";
-import {Picker} from '@react-native-picker/picker';
+import {
+  Button,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { useContext, useState } from "react";
 import UploadImage from "../Components/UploadImage";
 import { getCurrentDateTime } from "../utils/utils";
@@ -13,14 +20,12 @@ const ParkedCarForm = () => {
   return (
     <KeyboardAvoidingView>
       <Text>ParkedCarForm</Text>
-      {/* <UploadImage /> // comment out for testing */} 
+      <UploadImage />
       <Text>Form incoming {getCurrentDateTime()}</Text>
       <Text>I'm going to park</Text>
       <Picker
         selectedValue={duration}
-        onValueChange={(itemValue, itemIndex) =>
-          setDuration(itemValue)
-        }
+        onValueChange={(itemValue, itemIndex) => setDuration(itemValue)}
       >
         <Picker.Item label="30 minutes" value="30" />
         <Picker.Item label="1 hour" value="60" />
@@ -30,9 +35,7 @@ const ParkedCarForm = () => {
       <Text>Remind me</Text>
       <Picker
         selectedValue={reminder}
-        onValueChange={(itemValue, itemIndex) =>
-          setReminder(itemValue)
-        }
+        onValueChange={(itemValue, itemIndex) => setReminder(itemValue)}
       >
         <Picker.Item label="5 minutes before" value="5" />
         <Picker.Item label="10 minutes before" value="10" />
