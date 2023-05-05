@@ -1,14 +1,14 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "react-native";
 import {Picker} from '@react-native-picker/picker';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import UploadImage from "../Components/UploadImage";
 import { getCurrentDateTime } from "../utils/utils";
 import { ParkingFormModal } from "../Components/Modals/ParkingFormModal";
-const { userInfo } = useContext(UserInfoContext);
 
 const ParkedCarForm = () => {
-  const [duration, setDuration] = useState('60');
-  const [reminder, setReminder] = useState('5');
+  // const { userInfo } = useContext(UserInfoContext);
+  const [duration, setDuration] = useState("60");
+  const [reminder, setReminder] = useState("5");
   const [notes, setNotes] = useState("");
 
   return (
