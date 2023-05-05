@@ -1,9 +1,12 @@
+// delete file
+
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import HomeScreen from "../Screens/HomeScreen";
 import SignIn from "../Screens/SignIn";
 import SignUp from "../Screens/SignUp";
@@ -12,21 +15,37 @@ import ParkedCarForm from "../Screens/ParkedCarForm";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MyStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Sign In"
-      screenOptions={{
-        headerShown: false,
+const FeedStack = ({ navigation }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="RN Social"
+      component={HomeScreen}
+      options={{
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          color: "#2e64e5",
+          fontFamily: "Kufam-SemiBoldItalic",
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: "#fff",
+          elevation: 0,
+        },
+        headerRight: () => (
+          <View style={{ marginRight: 10 }}>
+            <FontAwesome5.Button
+              name="plus"
+              size={22}
+              backgroundColor="#fff"
+              color="#2e64e5"
+              onPress={() => navigation.navigate("AddPost")}
+            />
+          </View>
+        ),
       }}
-    >
-      <Stack.Screen name="Sign In" component={SignIn} />
-      <Stack.Screen name="Sign Up" component={SignUp} />
-      <Stack.Screen name="Home Screen" component={HomeScreen} />
-      <Stack.Screen name="ParkedCarForm" component={ParkedCarForm} />
-    </Stack.Navigator>
-  );
-};
+    />
+  </Stack.Navigator>
+);
 
 const AppStack = () => {
   const getTabBarVisibility = (route) => {
@@ -48,7 +67,7 @@ const AppStack = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={FeedStack}
         options={({ route }) => ({
           tabBarLabel: "Home",
           tabBarVisible: route.state && route.state.index === 0,

@@ -11,15 +11,15 @@ const CustomButton = ({ title, onPress, style, titleStyle }) => {
 };
 
 const NavBar = () => {
-  const navigation = useNavigation();
-  return (
-    <CustomButton
-      title="+"
-      style={styles.nav}
-      titleStyle={styles.title}
-      onPress={() => navigation.navigate("ParkedCarForm")}
-    />
-  );
+  // const navigation = useNavigation();
+  // return (
+  //   <CustomButton
+  //     title="+"
+  //     style={styles.nav}
+  //     titleStyle={styles.title}
+  //     onPress={() => navigation.navigate("ParkedCarForm")}
+  //   />
+  // );
 };
 
 export default NavBar;

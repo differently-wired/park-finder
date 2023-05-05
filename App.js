@@ -1,14 +1,18 @@
 import { NavigationContainer } from "@react-navigation/native";
 // import MyStack from "./Routes/MyStack";
 import { UserInfoProvider } from "./contexts/UserInfo";
-import Tabs from "./navigation/tabs";
-
+import Tabs from "./navigation/Tab";
+import AppStack from "./navigation/AppStack";
+import Auth from "./navigation/auth";
+import { createStackNavigator } from "@react-navigation/stack";
 export default function App() {
   return (
     <UserInfoProvider>
       <NavigationContainer>
         {/* <MyStack /> */}
-        <Tabs />
+        {/* <Tabs /> */}
+        {/* <AppStack /> */}
+        <Auth />
       </NavigationContainer>
     </UserInfoProvider>
   );
