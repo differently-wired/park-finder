@@ -14,18 +14,23 @@ const Tab = createBottomTabNavigator();
 //   </TouchableOpacity>;
 // };
 
+const MyStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Sign In"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Sign In" component={SignIn} />
+      <Stack.Screen name="Sign Up" component={SignUp} />
+      <Stack.Screen name="Home Screen" component={HomeScreen} />
+      <Stack.Screen name="ParkedCarForm" component={ParkedCarForm} />
+    </Stack.Navigator>
+  );
+};
+
 const Tabs = () => {
-  const getTabBarVisibility = (route) => {
-    const routeName = route.state
-      ? route.state.routes[route.state.index].name
-      : "";
-
-    if (routeName === "ParkedCarForm") {
-      return false;
-    }
-    return true;
-  };
-
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -37,7 +42,7 @@ const Tabs = () => {
         component={HomeScreen}
         options={({ route }) => ({
           tabBarLabel: "Home",
-          tabBarVisible: route.state && route.state.index === 0,
+          // tabBarVisible: route.state && route.state.index === 0,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="home-outline"
@@ -51,7 +56,7 @@ const Tabs = () => {
         name="Camera"
         component={ParkedCarForm}
         options={({ route }) => ({
-          tabBarVisible: getTabBarVisibility(route),
+          //   tabBarVisible: getTabBarVisibility(route),
           // Or Hide tabbar when push!
           // https://github.com/react-navigation/react-navigation/issues/7677
           // tabBarVisible: route.state && route.state.index === 0,
