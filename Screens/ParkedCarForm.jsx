@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "react-native";
 import {Picker} from '@react-native-picker/picker';
 import { useContext, useState } from "react";
 import UploadImage from "../Components/UploadImage";
@@ -6,7 +6,6 @@ import { getCurrentDateTime } from "../utils/utils";
 import { ParkingFormModal } from "../Components/Modals/ParkingFormModal";
 
 const ParkedCarForm = () => {
-  // const { userInfo } = useContext(UserInfoContext);
   const [duration, setDuration] = useState("60");
   const [reminder, setReminder] = useState("5");
   const [notes, setNotes] = useState("");
@@ -14,7 +13,7 @@ const ParkedCarForm = () => {
   return (
     <KeyboardAvoidingView>
       <Text>ParkedCarForm</Text>
-      {/* <UploadImage /> */}
+      {/* <UploadImage /> // comment out for testing */} 
       <Text>Form incoming {getCurrentDateTime()}</Text>
       <Text>I'm going to park</Text>
       <Picker
@@ -41,7 +40,7 @@ const ParkedCarForm = () => {
         <Picker.Item label="30 minutes before" value="30" />
       </Picker>
       <ParkingFormModal notes={notes} setNotes={setNotes} />
-
+      <Button title="Submit" />
     </KeyboardAvoidingView>
   );
 };
