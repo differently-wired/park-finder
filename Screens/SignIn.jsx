@@ -24,8 +24,8 @@ WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
   const { setUserInfo } = useContext(UserInfoContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("kenchan1@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [request, accessToken, promptAsync] = useGoogleAuth();
   const navigation = useNavigation();
 
