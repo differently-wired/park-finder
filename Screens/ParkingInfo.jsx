@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
 import { View, Text, Button } from "react-native";
 import { UserInfoContext } from "../contexts/UserInfo";
-import { addParking } from "../utils/parkings";
+import { addParking, getUserParkedCar } from "../utils/parkings";
 
 export default function ParkingInfo() {
   const { userInfo } = useContext(UserInfoContext);
-  
+
   const parkObj = {
     uid: userInfo.uid,
     city: 'Manchester',
@@ -18,15 +18,26 @@ export default function ParkingInfo() {
     pictureUrl: "https://insure2drive.co.uk/wp-content/uploads/2021/04/parked-car-shutterstock_573830026-copy.jpg"
   };
 
+  // useEffect(() => {
+  //   console.log("creating parking object...");
+  //   addParking(parkObj)
+  //   .then((data) => {
+  //     console.log('data', data);
+  //   })
+  //   .catch((error) => {
+  //     console.log('error', error);
+  //   });
+  // }, [])
+
   useEffect(() => {
-    console.log("creating parking object...");
-    addParking(parkObj)
-    .then((data) => {
-      console.log('data', data);
-    })
-    .catch((error) => {
-      console.log('error', error);
-    });
+    console.log("getting parking object...");
+    getUserParkedCar(userInfo.uid)
+      .then((data) => {
+        console.log('data', data);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
   }, [])
 
   return (
