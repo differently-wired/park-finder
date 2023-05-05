@@ -1,38 +1,112 @@
 import { TOMTOM_DEV_KEY } from "@env";
 
-export default `
-<div>
-    <style>
-            html, body {
-                margin: 0;
-            }
+export const MapTemplate = (userLocation, carLocation) => {
+  return `
+    <div>
+      <style>
+        html, body {
+          margin: 0;
+        }
 
-            #map {
-                height: 100%;
-                width: 100%;
-            }
-    </style>
-    
-    <div id='map' class='map'></div>
+        #map {
+          height: 100%;
+          width: 100%;
+        }
 
-    <!-- load TomTom Maps Web SDK from CDN -->
-    <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps.css'/>
-    <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps-web.min.js'></script>
+        .marker-border {
+            background: #c30b82;
+            border-radius: 50%;
+            height: 50px;
+            width: 50px;
+        }
 
-    <script>
-        // create the map
+        .marker-icon {
+            background-position: center;
+            background-size: 45px 45px;
+            border-radius: 50%;
+            position: absolute;
+            left: 2.5px;
+            top: 2.5px;
+            height: 45px;
+            width: 45px;
+        }
+      </style>
+
+      <div id='map' class='map'></div>
+
+      <!-- load TomTom Maps Web SDK from CDN -->
+      <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps.css'/>
+      <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps-web.min.js'></script>
+
+      <script>
+        // set the center to be device user location
+        let userCoords = [${userLocation.longitude}, ${userLocation.latitude}]
+        let carCoords = [${carLocation.longitude}, ${carLocation.latitude}]
+
+        // set the marker size
+        let size = 50
+
+        // create map of area centered on current user location
         tt.setProductInfo('TomTom Maps React Native Demo', '1.0');
-        let map = tt.map({
-            key:'${TOMTOM_DEV_KEY}',
-            container: 'map',
-            center: [-121.913, 37.361],
-            zoom: 15
+        const map = tt.map({
+          key:'${TOMTOM_DEV_KEY}',
+          container: 'map',
+          center: userCoords,
+          zoom: 17
+        });
+
+        // Add marker when map loads
+        map.on('load', function() {
+          // user marker
+          let userMarkerDiv = document.createElement('div')
+          userMarkerDiv.innerHTML = '<p> Hello there! Im a user </p>'
+
+          let userMarkerPopup = new tt.Popup({
+            closeButton: false,
+            offset: size,
+            anchor: 'bottom'
+          }).setDOMContent(userMarkerDiv)
+
+          let userMarkerBorder = document.createElement('div')
+          userMarkerBorder.className = 'marker-border'
+          let userMarkerIcon = document.createElement('div')
+          userMarkerIcon.className = 'marker-icon'
+          userMarkerIcon.style.backgroundImage = 'url(https://static.vecteezy.com/system/resources/previews/007/296/443/original/user-icon-person-icon-client-symbol-profile-icon-vector.jpg)'
+          userMarkerBorder.appendChild(userMarkerIcon)
+
+          let userMarker = new tt.Marker({
+            element: userMarkerBorder
+          })
+            .setLngLat(userCoords)
+            .setPopup(userMarkerPopup)
+          userMarker.addTo(map)
+
+          // car marker
+          let carMarkerDiv = document.createElement('div')
+          carMarkerDiv.innerHTML = '<p> Hello there! Im a car </p>'
+
+          let carMarkerPopup = new tt.Popup({
+            closeButton: false,
+            offset: size,
+            anchor: 'bottom'
+          }).setDOMContent(carMarkerDiv)
+
+          let carMarkerBorder = document.createElement('div')
+          carMarkerBorder.className = 'marker-border'
+          let carMarkerIcon = document.createElement('div')
+          carMarkerIcon.className = 'marker-icon'
+          carMarkerIcon.style.backgroundImage = 'url(https://png.pngtree.com/png-clipart/20190516/original/pngtree-car-icon-sign-png-image_3568162.jpg)'
+          carMarkerBorder.appendChild(carMarkerIcon)
+
+          let carMarker = new tt.Marker({
+            element: carMarkerBorder
+          })
+            .setLngLat(carCoords)
+            .setPopup(carMarkerPopup)
+          carMarker.addTo(map)
         });
         
-        map.on('dragend', function() {
-            let center = map.getCenter();
-            window.ReactNativeWebView.postMessage(center.lng.toFixed(3) + ", " + center.lat.toFixed(3));
-        })
-    </script>
-</div>
-`;
+      </script>
+    </div>
+  `;
+};

@@ -14,10 +14,16 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: "#2e64e5",
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#2e64e5",
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
       }}
-      screenOptions={{ headerShown: false }}
     >
       <Tab.Screen
         name="Home"

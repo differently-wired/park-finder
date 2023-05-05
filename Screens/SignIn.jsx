@@ -1,5 +1,4 @@
 import {
-  Button,
   Text,
   View,
   Image,
@@ -9,7 +8,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
-  Dimensions,
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -28,20 +26,17 @@ function SignIn() {
   const { setUserInfo } = useContext(UserInfoContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [request, accessToken, promptAsyn] = useGoogleAuth();
+  const [request, accessToken, promptAsync] = useGoogleAuth();
   const navigation = useNavigation();
 
   function onSuccess(firebaseUser) {
     getUserAccount(firebaseUser.uid)
       .then((user) => {
-        console.log("user", user);
+        // console.log("user", user);
         setUserInfo({
           uid: firebaseUser.uid,
           email: firebaseUser.email,
-          username: user.username,
-          defaultParkTime: user.defaultParkTime,
-          defaultAlertBefore: user.defaultAlertBefore,
-          activeParking: user.activeParking,
+          ...user,
         });
         navigation.navigate("Home Screen");
       })
@@ -60,6 +55,7 @@ function SignIn() {
         const firebaseUser = credential.user;
         return Promise.all([
           firebaseUser,
+          // don't return, just ignore on any errors
           createUserAccount(firebaseUser.uid, firebaseUser.displayName),
         ]);
       })
@@ -105,12 +101,7 @@ function SignIn() {
         >
           <Text style={styles.buttonOutlineText}>Sign in</Text>
         </TouchableOpacity>
-        {/* <Button
-          title="Connect with Google"
-          disabled={!request}
-          onPress={() => promptAsyn()}
-        /> */}
-        <TouchableOpacity disabled={!request} onPress={() => promptAsyn()}>
+        <TouchableOpacity disabled={!request} onPress={() => promptAsync()}>
           <View style={styles.GoogleButton}>
             <Image
               style={styles.GoogleImage}
