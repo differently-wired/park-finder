@@ -4,6 +4,7 @@ import SignUp from "../Screens/SignUp";
 import HomeScreen from "../Screens/HomeScreen";
 import SignIn from "../Screens/SignIn";
 import ParkedCarForm from "../Screens/ParkedCarForm";
+import ParkingInfo from "../Screens/ParkingInfo";
 
 const Stack = createStackNavigator();
 
