@@ -5,14 +5,15 @@ import HomeScreen from "../Screens/HomeScreen";
 import SignIn from "../Screens/SignIn";
 import ParkedCarForm from "../Screens/ParkedCarForm";
 import ParkingInfo from "../Screens/ParkingInfo";
+import NotificationSender from "../Components/NotificationSender";
 
 const Stack = createStackNavigator();
 
 export default function MyStack() {
   return (
     <Stack.Navigator
-      // initialRouteName="Home Screen"
-      initialRouteName="Sign In"
+      initialRouteName="ParkedCarForm"
+      // initialRouteName="Sign In"
     >
       <Stack.Screen name="Sign In" component={SignIn} />
       <Stack.Screen name="Sign Up" component={SignUp} />
