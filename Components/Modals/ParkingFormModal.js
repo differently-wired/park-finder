@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View, TextInput } from 'react-native';
 import Modal from 'react-native-modal';
 
 
 export function ParkingFormModal(props) {
     const { notes, setNotes } = props;
     const [visibleModal, setVisibleModal] = useState(null);
+    const [newNote, setNewNote] = useState("");
 
-    
-    console.log(notes, setNotes)
+    console.log(notes)
+    const saveNote = () => {
+        setNotes(notes.concat(newNote));
+        setNewNote("");
+        setVisibleModal(null);
+    }
+
     const _renderButton = (text, onPress) => (
         <TouchableOpacity onPress={onPress}>
             <View style={styles.button}>
@@ -19,9 +25,16 @@ export function ParkingFormModal(props) {
 
     const _renderModalContent = () => (
         <View style={styles.modalContent}>
-            <Text>Hello!</Text>
-            <View style={{ flex: 1 }} />
-            {_renderButton('Close', () => setVisibleModal(null))}
+            <TextInput
+                placeholder="Enter note"
+                value={newNote}
+                onChangeText={(text) => setNewNote(text)}
+                style={styles.input}
+            />
+            <View style={{ flexDirection: 'row' }}>
+                {_renderButton('Submit', saveNote)}
+                {_renderButton('Cancel', () => setVisibleModal(null))}
+            </View>
         </View>
     );
 
@@ -29,23 +42,9 @@ export function ParkingFormModal(props) {
         <View style={styles.container}>
             <Text>Form</Text>
 
-            {_renderButton('Fancy modal!', () => setVisibleModal(4))}
+            {_renderButton('Add Note', () => setVisibleModal(4))}
 
-            <Modal isVisible={visibleModal === 1}>{_renderModalContent()}</Modal>
-
-            <Modal
-                isVisible={visibleModal === 4}
-                backdropColor={'white'}
-                backdropOpacity={1}
-                animationIn={'zoomInDown'}
-                animationOut={'zoomOutUp'}
-                animationInTiming={100}
-                animationOutTiming={100}
-                backdropTransitionInTiming={100}
-                backdropTransitionOutTiming={100}>
-                {_renderModalContent()}
-            </Modal>
-            <Modal isVisible={visibleModal === 5} style={styles.bottomModal}>
+            <Modal isVisible={visibleModal === 4}>
                 {_renderModalContent()}
             </Modal>
         </View>
@@ -65,17 +64,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 4,
         borderColor: 'rgba(0, 0, 0, 0.1)',
+        marginRight: 8,
     },
     modalContent: {
-        backgroundColor: 'black',
+        backgroundColor: 'white',
         padding: 22,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 4,
         borderColor: 'rgba(0, 0, 0, 0.0)',
     },
-    bottomModal: {
-        justifyContent: 'flex-end',
-        margin: 0,
+    input: {
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        padding: 8,
+        marginBottom: 8,
+        width: '100%',
     },
 });
