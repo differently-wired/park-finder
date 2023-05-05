@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import UploadImage from "../Components/UploadImage";
-import NotificationSender from "../Components/NotificationSender";
+// import NotificationSender from "../Components/NotificationSender";
 
 const ParkedCarForm = () => {
   return (
     <View>
       <Text>ParkedCarForm</Text>
       <UploadImage />
-      <NotificationSender />
+      {/* <NotificationSender /> */}
       <Text>Form incoming</Text>
     </View>
   );
