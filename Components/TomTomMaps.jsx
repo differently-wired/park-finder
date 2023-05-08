@@ -10,7 +10,10 @@ export default function TomTomMaps() {
   let webRef = undefined;
   let [mapCenter, setMapCenter] = useState("");
   const [userLocation, setUserLocation] = useState({});
-  const [carLocation, setCarLocation] = useState({});
+  const [carLocation, setCarLocation] = useState({
+    longitude: -2.697894,
+    latitude: 53.553993,
+  });
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {

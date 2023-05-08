@@ -37,11 +37,13 @@ export const MapTemplate = (userLocation, carLocation) => {
       <!-- load TomTom Maps Web SDK from CDN -->
       <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps.css'/>
       <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps-web.min.js'></script>
+      <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/services/services-web.min.js"></script>
 
       <script>
         // set the center to be device user location
         let userCoords = [${userLocation.longitude}, ${userLocation.latitude}]
         let carCoords = [${carLocation.longitude}, ${carLocation.latitude}]
+        let routeCoords = '${userLocation.longitude},${userLocation.latitude}:${carLocation.longitude},${carLocation.latitude}'
 
         // set the marker size
         let size = 50
@@ -104,6 +106,30 @@ export const MapTemplate = (userLocation, carLocation) => {
             .setLngLat(carCoords)
             .setPopup(carMarkerPopup)
           carMarker.addTo(map)
+
+
+          //Add route to map
+          if (routeCoords) {
+            let route = new tt.services.calculateRoute({
+              key: '${TOMTOM_DEV_KEY}',
+              locations: routeCoords,
+            }).then((routeData) => {
+              const geojson = routeData.toGeoJson()
+              map.addLayer({
+                id: 'route',
+                type: 'line',
+                source: {
+                  type: 'geojson',
+                  data: geojson
+                },
+                'paint': {
+                  'line-color': 'red',
+                  'line-width': 6
+                }
+              })
+            })
+          }
+
         });
         
       </script>
