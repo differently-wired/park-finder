@@ -71,10 +71,10 @@ const Tabs = () => {
 function AppNavigation(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Sign In"
-      // screenOptions={{
-      //   headerShown: false,
-      // }}
+      initialRouteName="ParkedCarForm"
+    // screenOptions={{
+    //   headerShown: false,
+    // }}
     >
       <Stack.Screen name="Sign In" component={SignIn} />
       <Stack.Screen name="Sign Up" component={SignUp} />
