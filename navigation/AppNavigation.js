@@ -71,7 +71,7 @@ const Tabs = () => {
 function AppNavigation(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Home Screen"
+      initialRouteName="Sign In"
       // screenOptions={{
       //   headerShown: false,
       // }}
