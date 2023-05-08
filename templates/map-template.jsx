@@ -1,6 +1,6 @@
 import { TOMTOM_DEV_KEY } from "@env";
 
-export const MapTemplate = (userLocation, carLocation) => {
+export const MapTemplate = (userLocation, carLocation, tracking) => {
   return `
     <div>
       <style>
@@ -37,11 +37,13 @@ export const MapTemplate = (userLocation, carLocation) => {
       <!-- load TomTom Maps Web SDK from CDN -->
       <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps.css'/>
       <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps-web.min.js'></script>
+      <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/services/services-web.min.js"></script>
 
       <script>
         // set the center to be device user location
         let userCoords = [${userLocation.longitude}, ${userLocation.latitude}]
-        let carCoords = [${carLocation.longitude}, ${carLocation.latitude}]
+        let carCoords = [${carLocation.longitude}, ${carLocation.latitude}];
+        let routeCoords = '${userLocation.longitude},${userLocation.latitude}:${carLocation.longitude},${carLocation.latitude}'
 
         // set the marker size
         let size = 50
@@ -98,12 +100,38 @@ export const MapTemplate = (userLocation, carLocation) => {
           carMarkerIcon.style.backgroundImage = 'url(https://png.pngtree.com/png-clipart/20190516/original/pngtree-car-icon-sign-png-image_3568162.jpg)'
           carMarkerBorder.appendChild(carMarkerIcon)
 
+          if (carCoords) {
           let carMarker = new tt.Marker({
             element: carMarkerBorder
           })
             .setLngLat(carCoords)
             .setPopup(carMarkerPopup)
           carMarker.addTo(map)
+        }
+
+
+          //Add route to map
+          if (${tracking}) {
+            let route = new tt.services.calculateRoute({
+              key: '${TOMTOM_DEV_KEY}',
+              locations: routeCoords,
+            }).then((routeData) => {
+              const geojson = routeData.toGeoJson()
+              map.addLayer({
+                id: 'route',
+                type: 'line',
+                source: {
+                  type: 'geojson',
+                  data: geojson
+                },
+                'paint': {
+                  'line-color': 'red',
+                  'line-width': 6
+                }
+              })
+            })
+          }
+
         });
         
       </script>
