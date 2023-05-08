@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { StyleSheet, View, Button, TextInput } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { MapTemplate } from "../templates/map-template";
 import * as Location from "expo-location";
@@ -10,11 +10,9 @@ export default function TomTomMaps() {
   let webRef = undefined;
   let [mapCenter, setMapCenter] = useState("");
   const [userLocation, setUserLocation] = useState({});
-  const [carLocation, setCarLocation] = useState({
-    longitude: -2.697894,
-    latitude: 53.553993,
-  });
+  const [carLocation, setCarLocation] = useState({});
   const [errorMsg, setErrorMsg] = useState(null);
+  const [tracking, setTracking] = useState(false);
 
   useEffect(() => {
     // get user location
@@ -31,10 +29,9 @@ export default function TomTomMaps() {
       setUserLocation({ longitude, latitude });
     })();
 
-    // get pinned car location
-    // TODO change this to get the pinned location from the database
+    // get car location from user/db
     // If there is no pinned location. DO NOT set this and marker will not appear.
-    // EXAMPLE: setCarLocation({ longitude: -2.697894, latitude: 53.553993 });
+    setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
   }, []);
 
   let text = "Waiting...";
@@ -50,20 +47,16 @@ export default function TomTomMaps() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttons}>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={setMapCenter}
-          value={mapCenter}
-        ></TextInput>
-      </View>
+      {/* Temp button to enable/disable navigation */}
+      <Button title="Track" onPress={() => setTracking(!tracking)} />
+      {/* ---------------------------------------- */}
       <WebView
         ref={(r) => (webRef = r)}
         onMessage={handleMapEvent}
         style={styles.map}
         originWhitelist={["*"]}
         source={{
-          html: MapTemplate(userLocation, carLocation),
+          html: MapTemplate(userLocation, carLocation, tracking),
         }}
       />
     </View>

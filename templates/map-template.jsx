@@ -1,6 +1,6 @@
 import { TOMTOM_DEV_KEY } from "@env";
 
-export const MapTemplate = (userLocation, carLocation) => {
+export const MapTemplate = (userLocation, carLocation, tracking) => {
   return `
     <div>
       <style>
@@ -42,7 +42,7 @@ export const MapTemplate = (userLocation, carLocation) => {
       <script>
         // set the center to be device user location
         let userCoords = [${userLocation.longitude}, ${userLocation.latitude}]
-        let carCoords = [${carLocation.longitude}, ${carLocation.latitude}]
+        let carCoords = [${carLocation.longitude}, ${carLocation.latitude}];
         let routeCoords = '${userLocation.longitude},${userLocation.latitude}:${carLocation.longitude},${carLocation.latitude}'
 
         // set the marker size
@@ -100,16 +100,18 @@ export const MapTemplate = (userLocation, carLocation) => {
           carMarkerIcon.style.backgroundImage = 'url(https://png.pngtree.com/png-clipart/20190516/original/pngtree-car-icon-sign-png-image_3568162.jpg)'
           carMarkerBorder.appendChild(carMarkerIcon)
 
+          if (carCoords) {
           let carMarker = new tt.Marker({
             element: carMarkerBorder
           })
             .setLngLat(carCoords)
             .setPopup(carMarkerPopup)
           carMarker.addTo(map)
+        }
 
 
           //Add route to map
-          if (routeCoords) {
+          if (${tracking}) {
             let route = new tt.services.calculateRoute({
               key: '${TOMTOM_DEV_KEY}',
               locations: routeCoords,
