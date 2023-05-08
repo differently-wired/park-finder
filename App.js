@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
 
-import MyStack from "./Routes/MyStack";
 import { UserInfoProvider } from "./contexts/UserInfo";
+import AppNavigation from "./navigation/AppNavigation";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -34,7 +34,7 @@ export default function App() {
   return (
     <UserInfoProvider>
       <NavigationContainer>
-        <MyStack />
+        <AppNavigation />
       </NavigationContainer>
     </UserInfoProvider>
   );
