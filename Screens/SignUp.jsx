@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { createUserAccount } from "../utils/dbApi.js";
 import { singUpWithEmail } from "../utils/auth.js";
 import { UserInfoContext } from "../contexts/UserInfo";
-
+import { signUpStyles } from '../Styles/styles.js'
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -57,7 +57,7 @@ export default function SignUp() {
     >
       <Text style={styles.heading}>Sign up</Text>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inputContainer}>
+        <View style={signUpStyles.inputContainer}>
           <TextInput
             placeholder="Email"
             value={email}
@@ -68,29 +68,29 @@ export default function SignUp() {
             placeholder="Display Name"
             value={username}
             onChangeText={(text) => setUsername(text)}
-            style={styles.Input}
+            style={signUpStyles.Input}
           />
 
           <TextInput
             placeholder="Password"
             value={password}
             onChangeText={(text) => setPassword(text)}
-            style={styles.Input}
+            style={signUpStyles.Input}
             secureTextEntry
           />
           <TextInput
             placeholder="Confirm Password"
             value={confirmPassword}
             onChangeText={(text) => setConfirmPassword(text)}
-            style={styles.Input}
+            style={signUpStyles.Input}
             secureTextEntry
           />
         </View>
       </TouchableWithoutFeedback>
-      <View style={styles.buttonContainer}>
+      <View style={signUpStyles.buttonContainer}>
         <TouchableOpacity
           onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
+          style={[signUpStyles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
@@ -99,51 +99,3 @@ export default function SignUp() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    fontSize: 53,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  inputContainer: {
-    width: "60%",
-  },
-  Input: {
-    backgroundColor: "#f2f2f2",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 25,
-    // padding: 55,
-  },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignContent: "center",
-    marginTop: 30,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "white",
-    width: "100%",
-    padding: 10,
-    borderRadius: 10,
-  },
-  buttonOutline: {
-    borderWidth: 2,
-    borderColor: "white",
-    backgroundColor: "#24a0ed",
-  },
-  buttonOutlineText: {
-    color: "white",
-    fontSize: 18,
-    // fontWeight: "#24a0ed",
-  },
-  heading: {
-    color: "black",
-    fontSize: 40,
-    margin: 20,
-  },
-});

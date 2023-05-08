@@ -4,6 +4,7 @@ import { StyleSheet, View, Button, TextInput } from "react-native";
 import { WebView } from "react-native-webview";
 import { MapTemplate } from "../templates/map-template";
 import * as Location from "expo-location";
+import { mapStyles } from "../Styles/styles";
 
 export default function TomTomMaps() {
   // webRef to be used for scroller
@@ -46,10 +47,10 @@ export default function TomTomMaps() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.buttons}>
+    <View style={mapStyles.container}>
+      <View style={mapStyles.buttons}>
         <TextInput
-          style={styles.textInput}
+          style={mapStyles.textInput}
           onChangeText={setMapCenter}
           value={mapCenter}
         ></TextInput>
@@ -57,7 +58,7 @@ export default function TomTomMaps() {
       <WebView
         ref={(r) => (webRef = r)}
         onMessage={handleMapEvent}
-        style={styles.map}
+        style={mapStyles.map}
         originWhitelist={["*"]}
         source={{
           html: MapTemplate(userLocation, carLocation),
@@ -67,21 +68,3 @@ export default function TomTomMaps() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "column",
-    flex: 1,
-    width: "100%",
-    height: "85%",
-  },
-  map: {
-    width: "100%",
-    height: "85%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  marker: {
-    width: 22,
-    height: 22,
-  },
-});

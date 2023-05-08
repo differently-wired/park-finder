@@ -110,3 +110,5 @@ export const MapTemplate = (userLocation, carLocation) => {
     </div>
   `;
 };
+
+
