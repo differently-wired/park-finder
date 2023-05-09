@@ -2,6 +2,8 @@ import { FIRESTORE_DB } from '../firebaseConfig'
 import { Timestamp, collection, doc, addDoc, setDoc, query, orderBy, limit, getDocs } from 'firebase/firestore'
 
 export async function addParking(parkObj) {
+  console.log("Add Parking", parkObj.uid)
+
   // uid
   // datetime
   // city
@@ -38,6 +40,7 @@ export async function addParking(parkObj) {
 }
 
 export async function getUserParkedCar(uid) {
+  console.log("Get user parked car", uid)
 
   const userParkRef = collection(
     FIRESTORE_DB,

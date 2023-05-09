@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // create user account and user document ---------------------------------------
 export const createUserAccount = async (uid, username) => {
+  console.log("Creating user account", uid)
   // create user document
   const docRef = doc(FIRESTORE_DB, "user_list", uid);
   const data = {
@@ -30,6 +31,7 @@ export const createUserAccount = async (uid, username) => {
 };
 
 export const getUserAccount = async (uid) => {
+  console.log("Getting user account", uid)
   const userRef = doc(FIRESTORE_DB, "user_list", uid);
   return getDoc(userRef).then((userSnap) => {
     if (userSnap.exists()) {

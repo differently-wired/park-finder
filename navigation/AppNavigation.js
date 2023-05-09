@@ -12,6 +12,8 @@ import ActionBarImage from "../Components/NavigationBarImage";
 import LogoTitle from "../Components/LogoTitle";
 import TomTomMaps from "../Components/TomTomMaps";
 import React, { useState } from "react";
+import PinnedHomeScreen from "../Screens/PinnedHomeScreen";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -72,7 +74,7 @@ const Tabs = () => {
       /> */}
       <Tab.Screen
         name="Find Car"
-        component={HomeScreen}
+        component={PinnedHomeScreen}
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
@@ -93,7 +95,10 @@ function AppNavigation(props) {
       // }}
       // screenOptions={{ headerRight: () => <ActionBarImage /> }}
       // screenOptions={{ title: "" }}
-      screenOptions={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+      screenOptions={{
+        headerTitle: () => <LogoTitle />,
+        headerLeft: () => null,
+      }}
     >
       <Stack.Screen name="Sign In" component={SignIn} />
       <Stack.Screen name="Sign Up" component={SignUp} />
