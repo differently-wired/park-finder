@@ -34,7 +34,7 @@ const UploadImage = () => {
     utils.takePicture().then((result) => {
       if (!result.assets[0].cancelled) {
         setImageUri(result.assets[0].uri);
-        console.log(imageUri);
+        console.log("uploadImg", imageUri);
       }
     });
   };
