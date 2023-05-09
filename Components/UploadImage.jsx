@@ -1,14 +1,14 @@
 import { Text, View, Button, Image, StyleSheet } from "react-native";
-import React from "react";
+// import React from "react";
 import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import * as dbApi from "../utils/dbApi";
+// import * as dbApi from "../utils/dbApi";
 import * as utils from "../utils/utils";
 
-const UploadImage = () => {
-  const [imageUri, setImageUri] = useState(null);
+const UploadImage = ({ imageUri, setImageUri }) => {
+  // const [imageUri, setImageUri] = useState(null);
   const [permission, setPermission] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
+  // const [uploaded, setUploaded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -22,29 +22,29 @@ const UploadImage = () => {
     pickImage();
   }, []);
 
-  useEffect(() => {
-    if (uploaded) {
-      alert("Image uploaded!");
-    }
-  }, [uploaded]);
+  // useEffect(() => {
+  //   if (uploaded) {
+  //     alert("Image uploaded!");
+  //   }
+  // }, [uploaded]);
 
   const pickImage = () => {
     utils.takePicture().then((result) => {
       if (!result.assets[0].cancelled) {
+        console.log("uploadImg", result.assets[0].uri);
         setImageUri(result.assets[0].uri);
-        console.log("uploadImg", imageUri);
       }
     });
   };
 
-  const uploadImagePress = async () => {
-    try {
-      await dbApi.uploadParkedCarImageToStorage(imageUri);
-      setUploaded(true);
-    } catch (err) {
-      alert(err);
-    }
-  };
+  // const uploadImagePress = async () => {
+  //   try {
+  //     await dbApi.uploadParkedCarImageToStorage(imageUri);
+  //     setUploaded(true);
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // };
 
   return (
     <View>
@@ -53,10 +53,10 @@ const UploadImage = () => {
       {imageUri && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />
-          <Button
+          {/* <Button
             title="This will upload image, but need form submit too"
             onPress={uploadImagePress}
-          />
+          /> */}
         </>
       )}
     </View>

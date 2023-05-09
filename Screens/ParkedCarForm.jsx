@@ -15,13 +15,14 @@ import { ParkingFormModal } from "../Components/Modals/ParkingFormModal";
 import { addParking } from "../utils/parkings";
 import * as Location from "expo-location";
 import { UserInfoContext } from "../contexts/UserInfo";
+import { uploadParkedCarImageToStorage } from "../utils/dbApi";
 
 const ParkedCarForm = () => {
-  const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const [uid, setUid] = useState(userInfo.uid);
+  const { userInfo } = useContext(UserInfoContext);
+  const [uid] = useState(userInfo.uid);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const [pictureUrl, setPictureUrl] = useState("https://insure2drive.co.uk/wp-content/uploads/2021/04/parked-car-shutterstock_573830026-copy.jpg");
+  const [imageUri, setImageUri] = useState("no photo");
 
   const [duration, setDuration] = useState(60);
   const [reminder, setReminder] = useState(5);
@@ -29,20 +30,19 @@ const ParkedCarForm = () => {
 
   // get user location
   useEffect(() => {
-    console.log("on form load");
     Location.getCurrentPositionAsync({})
       .then((currentLocation) => {
         setLatitude(currentLocation.coords.latitude);
         setLongitude(currentLocation.coords.longitude);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   
   const handleSubmit = useCallback(() => {
-    console.log("creating parking object again ...");
 
+    // 1) save to db
     const parkObj = {
       uid,
       latitude,
@@ -50,7 +50,6 @@ const ParkedCarForm = () => {
       duration,
       reminder,
       notes,
-      pictureUrl,
       action: 1,
     };
     console.log('parkObj', parkObj);
@@ -63,22 +62,27 @@ const ParkedCarForm = () => {
         console.log('error', error);
       });
 
+    // 2) set notifications
     triggerNotifications(duration, reminder);
-  }, [uid, duration, reminder, notes, latitude, longitude, pictureUrl]);
+
+    // 3) upload image
+    uploadParkedCarImageToStorage(imageUri);
+
+  }, [uid, duration, reminder, notes, latitude, longitude, imageUri]);
 
   return (
     <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
 
       <Text style={styles.title}>ParkedCarForm</Text>
-      <UploadImage />
+      <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
       <Text style={styles.subtitle}>Form incoming {getCurrentDateTime()}</Text>
       <Text style={styles.label}>I'm going to park</Text>
       <Picker
         selectedValue={duration}
         onValueChange={(itemValue) => setDuration(itemValue)}
         style={styles.picker}
-        >
+      >
         <Picker.Item label="30 minutes" value={30} />
         <Picker.Item label="1 hour" value={60} />
         <Picker.Item label="2 hours" value={120} />
