@@ -4,7 +4,7 @@ export const takePicture = async () => {
   try {
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false, // avoid cropping
       aspect: [4, 3],
       quality: 0.2,
     });
