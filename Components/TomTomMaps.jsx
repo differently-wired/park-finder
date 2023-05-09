@@ -4,6 +4,7 @@ import { Button, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { MapTemplate } from "../templates/map-template";
 import * as Location from "expo-location";
+import { getParkedCarImageFromStorage } from "../utils/dbApi";
 
 export default function TomTomMaps() {
   // webRef to be used for scroller
@@ -12,6 +13,7 @@ export default function TomTomMaps() {
   const [userLocation, setUserLocation] = useState({});
   const [carLocation, setCarLocation] = useState({});
   const [tracking, setTracking] = useState(false);
+  const [imgUri, setImgUri] = useState(null);
 
   useEffect(() => {
     // get user location
@@ -20,6 +22,16 @@ export default function TomTomMaps() {
 
       const { longitude, latitude } = currentLocation.coords;
       setUserLocation({ longitude, latitude });
+    })();
+    //get car img from user/db
+    // If there is no image. DO NOT set this and image will not appear.
+    (async () => {
+      try {
+        let carImg = await getParkedCarImageFromStorage();
+        setImgUri(carImg);
+      } catch (error) {
+        console.log(error);
+      }
     })();
 
     // get car location from user/db
@@ -52,7 +64,7 @@ export default function TomTomMaps() {
         style={styles.map}
         originWhitelist={["*"]}
         source={{
-          html: MapTemplate(userLocation, carLocation, tracking),
+          html: MapTemplate(userLocation, carLocation, tracking, imgUri),
         }}
       />
     </View>

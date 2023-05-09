@@ -4,7 +4,7 @@ import {
   FIREBASE_STORAGE,
   FIREBASE_AUTH,
 } from "../firebaseConfig";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // create user account and user document ---------------------------------------
 export const createUserAccount = async (uid, username) => {
@@ -45,7 +45,14 @@ export const uploadParkedCarImageToStorage = async (imageUri) => {
   const response = await fetch(imageUri);
   const blob = await response.blob();
   const uid = FIREBASE_AUTH.currentUser.uid;
-  const fileName = imageUri.substring(imageUri.lastIndexOf("/") + 1);
-  const imageRef = ref(FIREBASE_STORAGE, `parked_cars/${uid}/${fileName}`);
+  const imageRef = ref(FIREBASE_STORAGE, `parked_cars/${uid}/parked_car.jpg`);
   await uploadBytes(imageRef, blob);
+};
+
+// Get image from firebase storage --------------------------------------------
+export const getParkedCarImageFromStorage = async () => {
+  const uid = FIREBASE_AUTH.currentUser.uid;
+  const imageRef = ref(FIREBASE_STORAGE, `parked_cars/${uid}/parked_car.jpg`);
+  const url = await getDownloadURL(imageRef);
+  return url;
 };

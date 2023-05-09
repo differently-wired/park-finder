@@ -1,6 +1,6 @@
 import { TOMTOM_DEV_KEY } from "@env";
 
-export const MapTemplate = (userLocation, carLocation, tracking) => {
+export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
   return `
     <div>
       <style>
@@ -85,7 +85,7 @@ export const MapTemplate = (userLocation, carLocation, tracking) => {
 
           // car marker
           let carMarkerDiv = document.createElement('div')
-          carMarkerDiv.innerHTML = '<p> Hello there! Im a car </p>'
+          carMarkerDiv.innerHTML = '<img src="${imgUri}" style="width: 30vw; height: 30vw;"/>'
 
           let carMarkerPopup = new tt.Popup({
             closeButton: false,
