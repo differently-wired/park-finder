@@ -29,12 +29,17 @@ const UploadImage = ({ imageUri, setImageUri }) => {
   // }, [uploaded]);
 
   const pickImage = () => {
-    utils.takePicture().then((result) => {
-      if (!result.assets[0].cancelled) {
-        console.log("uploadImg", result.assets[0].uri);
-        setImageUri(result.assets[0].uri);
-      }
-    });
+    utils.takePicture()
+      .then((result) => {
+        if (!result.assets[0].cancelled) {
+          console.log("uploadImg", result.assets[0].uri);
+          setImageUri(result.assets[0].uri);
+        }
+      })
+      // remove Possible Unhandled Promise Rejection warnings
+      .catch((error) => {
+        console.log('pickImage', error);
+      })
   };
 
   // const uploadImagePress = async () => {

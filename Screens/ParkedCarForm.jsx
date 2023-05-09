@@ -16,9 +16,11 @@ import { addParking } from "../utils/parkings";
 import * as Location from "expo-location";
 import { UserInfoContext } from "../contexts/UserInfo";
 import { uploadParkedCarImageToStorage } from "../utils/dbApi";
+import { useNavigation } from "@react-navigation/native";
+
 
 const ParkedCarForm = () => {
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [uid] = useState(userInfo.uid);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
@@ -27,6 +29,7 @@ const ParkedCarForm = () => {
   const [duration, setDuration] = useState(60);
   const [reminder, setReminder] = useState(5);
   const [notes, setNotes] = useState("");
+  const navigation = useNavigation();
 
   // get user location
   useEffect(() => {
@@ -39,10 +42,9 @@ const ParkedCarForm = () => {
         console.log(error);
       });
   }, []);
-  
+
   const handleSubmit = useCallback(() => {
 
-    // 1) save to db
     const parkObj = {
       uid,
       latitude,
@@ -54,19 +56,28 @@ const ParkedCarForm = () => {
     };
     console.log('parkObj', parkObj);
 
+    // 1) save to db
     addParking(parkObj)
       .then((data) => {
         console.log('data', data);
+        console.log('Going to set notifications');
+        // 2) set notifications
+        return triggerNotifications(duration, reminder);
+      })
+      .then(() => {
+        console.log('Going to upload image');
+        // 3) upload image
+        return uploadParkedCarImageToStorage(imageUri);
+      })
+      .then(() => {
+        console.log('Going to home screen');
+        // 4) go back to home screen
+        setUserInfo((current) => { return { ...current, activeParking: true } });
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log('error', error);
       });
-
-    // 2) set notifications
-    triggerNotifications(duration, reminder);
-
-    // 3) upload image
-    uploadParkedCarImageToStorage(imageUri);
 
   }, [uid, duration, reminder, notes, latitude, longitude, imageUri]);
 
@@ -74,35 +85,35 @@ const ParkedCarForm = () => {
     <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
 
-      <Text style={styles.title}>ParkedCarForm</Text>
-      <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
-      <Text style={styles.subtitle}>Form incoming {getCurrentDateTime()}</Text>
-      <Text style={styles.label}>I'm going to park</Text>
-      <Picker
-        selectedValue={duration}
-        onValueChange={(itemValue) => setDuration(itemValue)}
-        style={styles.picker}
-      >
-        <Picker.Item label="30 minutes" value={30} />
-        <Picker.Item label="1 hour" value={60} />
-        <Picker.Item label="2 hours" value={120} />
-        <Picker.Item label="3 hours" value={180} />
-      </Picker>
-      <Text style={styles.label}>Remind me</Text>
-      <Picker
-        selectedValue={reminder}
-        onValueChange={(itemValue) => setReminder(itemValue)}
-        style={styles.picker}
+        <Text style={styles.title}>ParkedCarForm</Text>
+        <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
+        <Text style={styles.subtitle}>Form incoming {getCurrentDateTime()}</Text>
+        <Text style={styles.label}>I'm going to park</Text>
+        <Picker
+          selectedValue={duration}
+          onValueChange={(itemValue) => setDuration(itemValue)}
+          style={styles.picker}
         >
-        <Picker.Item label="5 minutes before" value={5} />
-        <Picker.Item label="10 minutes before" value={10} />
-        <Picker.Item label="15 minutes before" value={15} />
-        <Picker.Item label="30 minutes before" value={30} />
-      </Picker>
-      <ParkingFormModal notes={notes} setNotes={setNotes} />
-      <Button title="Submit" style={styles.button} onPress={handleSubmit} />
-    </KeyboardAvoidingView>
-  </ScrollView>
+          <Picker.Item label="30 minutes" value={30} />
+          <Picker.Item label="1 hour" value={60} />
+          <Picker.Item label="2 hours" value={120} />
+          <Picker.Item label="3 hours" value={180} />
+        </Picker>
+        <Text style={styles.label}>Remind me</Text>
+        <Picker
+          selectedValue={reminder}
+          onValueChange={(itemValue) => setReminder(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="5 minutes before" value={5} />
+          <Picker.Item label="10 minutes before" value={10} />
+          <Picker.Item label="15 minutes before" value={15} />
+          <Picker.Item label="30 minutes before" value={30} />
+        </Picker>
+        <ParkingFormModal notes={notes} setNotes={setNotes} />
+        <Button title="Submit" style={styles.button} onPress={handleSubmit} />
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
