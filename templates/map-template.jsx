@@ -125,7 +125,7 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
                   data: geojson
                 },
                 'paint': {
-                  'line-color': 'red',
+                  'line-color': 'purple',
                   'line-width': 6
                 }
               })

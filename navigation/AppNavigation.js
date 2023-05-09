@@ -72,16 +72,6 @@ const Tabs = () => {
           ),
         }}
       /> */}
-      <Tab.Screen
-        name="Find Car"
-        component={PinnedHomeScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="pin-outline" color={color} size={size} />
-          ),
-        }}
-      />
     </Tab.Navigator>
   );
 };
