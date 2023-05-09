@@ -37,7 +37,6 @@ export default function SignUp() {
         username.trim()
       );
       const user = await createUserAccount(firebaseUser.uid, username);
-      // console.log('user', user);
       setUserInfo({
         uid: firebaseUser.uid,
         email: firebaseUser.email,

@@ -8,7 +8,7 @@ export function ParkingFormModal(props) {
     const [visibleModal, setVisibleModal] = useState(null);
     const [newNote, setNewNote] = useState("");
 
-    console.log(notes)
+    
     const saveNote = () => {
         setNotes(notes.concat(newNote));
         setNewNote("");
