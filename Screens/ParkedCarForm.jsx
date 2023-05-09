@@ -10,16 +10,15 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { useContext, useState, useCallback, useEffect } from "react";
 import UploadImage from "../Components/UploadImage";
-import { getCurrentDateTime } from "../utils/utils";
+import { getCurrentDateTime, triggerNotifications } from "../utils/utils";
 import { ParkingFormModal } from "../Components/Modals/ParkingFormModal";
 import { addParking } from "../utils/parkings";
-import * as Notifications from "expo-notifications";
 import * as Location from "expo-location";
 
 const ParkedCarForm = () => {
   const [uid, setUid] = useState("YI8s1HWBnXPMLar2vWASK1Ctv9A3");
-  const [latitude, setLatitude] = useState(53.487311);
-  const [longitude, setLongitude] = useState(-2.228192802761345);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const [pictureUrl, setPictureUrl] = useState("https://insure2drive.co.uk/wp-content/uploads/2021/04/parked-car-shutterstock_573830026-copy.jpg");
 
   const [duration, setDuration] = useState(60);
@@ -27,42 +26,25 @@ const ParkedCarForm = () => {
   const [notes, setNotes] = useState("");
 
   // location data
-  const [userLocation, setUserLocation] = useState({});
+  // const [userLocation, setUserLocation] = useState({});
 
   // get user location
   useEffect(() => {
-    (async () => {
-      let currentLocation = await Location.getCurrentPositionAsync({});
-
-      const { longitude, latitude } = currentLocation.coords;
-      setUserLocation({ longitude, latitude });
-    })();
+    console.log("on form load");
+    Location.getCurrentPositionAsync({})
+      .then((currentLocation) => {
+        console.log('currentLocation', currentLocation.coords);
+        console.log('latitude', currentLocation.coords.latitude);
+        console.log('longitude', currentLocation.coords.longitude);
+        setLatitude(currentLocation.coords.latitude);
+        setLongitude(currentLocation.coords.longitude);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }, []);
   
-   // set up notifications
-  // TODO: add this into handle submit
-  const triggerNotifications = async () => {
-    const durationInSeconds = parseInt(duration) * 60;
-    const reminderInSeconds = parseInt(reminder) * 60;
-    let triggerTime = 2;
-    if (durationInSeconds - reminderInSeconds > 0) {
-      triggerTime = durationInSeconds - reminderInSeconds;
-    }
-    console.log(triggerTime);
-
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Park Find & Remind",
-        body: "It's time to return to your parking spot!",
-        data: { data: "Parking is due to expire in 15 minutes" },
-      },
-      trigger: { seconds: triggerTime },
-    });
-  }; 
-
   const handleSubmit = useCallback(() => {
-    triggerNotifications();
-
     console.log("creating parking object again ...");
 
     const parkObj = {
@@ -85,7 +67,8 @@ const ParkedCarForm = () => {
         console.log('error', error);
       });
 
-  }, [duration, reminder, notes]);
+    triggerNotifications(duration, reminder);
+  }, [duration, reminder, notes, latitude, longitude]);
 
   return (
     <ScrollView>
