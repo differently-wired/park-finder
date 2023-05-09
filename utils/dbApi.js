@@ -2,6 +2,7 @@ import { setDoc, doc, getDoc } from "@firebase/firestore";
 import {
   FIRESTORE_DB,
   FIREBASE_STORAGE,
+  FIREBASE_AUTH,
 } from "../firebaseConfig";
 import { ref, uploadBytes } from "firebase/storage";
 
@@ -31,7 +32,6 @@ export const createUserAccount = async (uid, username) => {
 export const getUserAccount = async (uid) => {
   const userRef = doc(FIRESTORE_DB, "user_list", uid);
   return getDoc(userRef).then((userSnap) => {
-    // console.log("userSnap", userSnap);
     if (userSnap.exists()) {
       return userSnap.data();
     } else {
@@ -44,7 +44,8 @@ export const getUserAccount = async (uid) => {
 export const uploadParkedCarImageToStorage = async (imageUri) => {
   const response = await fetch(imageUri);
   const blob = await response.blob();
+  const uid = FIREBASE_AUTH.currentUser.uid;
   const fileName = imageUri.substring(imageUri.lastIndexOf("/") + 1);
-  const imageRef = ref(FIREBASE_STORAGE, `parked_cars/${fileName}`);
+  const imageRef = ref(FIREBASE_STORAGE, `parked_cars/${uid}/${fileName}`);
   await uploadBytes(imageRef, blob);
 };

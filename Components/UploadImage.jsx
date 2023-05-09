@@ -28,7 +28,6 @@ const UploadImage = () => {
   useEffect(() => {
     if (uploaded) {
       alert("Image uploaded!");
-      navigation.navigate("HomeScreen");
     }
   }, [uploaded]);
 
