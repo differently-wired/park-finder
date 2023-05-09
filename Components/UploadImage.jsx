@@ -50,16 +50,16 @@ const UploadImage = () => {
   };
 
   return (
-    <View>
-      <Text style={styles.text}>UploadImage</Text>
-      <Button title="Retake Picture" onPress={pickImage} />
+    <View style={styles.container}>
+      <Text style={styles.text}></Text>
       {imageUri && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />
-          <Button
+          <Button title="Retake Picture" onPress={pickImage} />
+          {/* <Button
             title="This will upload image, but need form submit too"
             onPress={uploadImagePress}
-          />
+          /> */}
         </>
       )}
     </View>
@@ -69,21 +69,21 @@ const UploadImage = () => {
 export default UploadImage;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-  },
+  // container: {
+  //   flex: 1,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   backgroundColor: "black",
+  // },
   text: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
   },
   image: {
-    width: 200,
-    height: 200,
-    marginTop: 20,
+    width: 500,
+    height: 300,
+    // marginTop: 20,
     marginBottom: 20,
     alignSelf: "center",
   },
