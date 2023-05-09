@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { MapTemplate } from "../templates/map-template";
 import * as Location from "expo-location";
+import { ImageUriContext } from "../contexts/ParkedCarUri";
 
 export default function TomTomMaps() {
   // webRef to be used for scroller
@@ -12,6 +13,7 @@ export default function TomTomMaps() {
   const [userLocation, setUserLocation] = useState({});
   const [carLocation, setCarLocation] = useState({});
   const [tracking, setTracking] = useState(false);
+  const { imageUri } = useContext(ImageUriContext);
 
   useEffect(() => {
     // get user location
@@ -39,7 +41,13 @@ export default function TomTomMaps() {
   return (
     <View style={styles.container}>
       {/* Temp button to enable/disable navigation */}
-      <Button title="Find Car" onPress={() => setTracking(!tracking)} />
+      <Button
+        title="Find Car"
+        onPress={() => {
+          setTracking(!tracking);
+          console.log(imageUri);
+        }}
+      />
       {/* ---------------------------------------- */}
       <WebView
         ref={(r) => (webRef = r)}
