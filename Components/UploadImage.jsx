@@ -4,14 +4,11 @@ import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as dbApi from "../utils/dbApi";
 import * as utils from "../utils/utils";
-import { useNavigation } from "@react-navigation/native";
 
 const UploadImage = () => {
   const [imageUri, setImageUri] = useState(null);
   const [permission, setPermission] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-
-  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -28,7 +25,6 @@ const UploadImage = () => {
   useEffect(() => {
     if (uploaded) {
       alert("Image uploaded!");
-      navigation.navigate("HomeScreen");
     }
   }, [uploaded]);
 
@@ -36,6 +32,7 @@ const UploadImage = () => {
     utils.takePicture().then((result) => {
       if (!result.assets[0].cancelled) {
         setImageUri(result.assets[0].uri);
+        console.log("uploadImg", imageUri);
       }
     });
   };
