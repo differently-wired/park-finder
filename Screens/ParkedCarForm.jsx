@@ -14,9 +14,11 @@ import { getCurrentDateTime, triggerNotifications } from "../utils/utils";
 import { ParkingFormModal } from "../Components/Modals/ParkingFormModal";
 import { addParking } from "../utils/parkings";
 import * as Location from "expo-location";
+import { UserInfoContext } from "../contexts/UserInfo";
 
 const ParkedCarForm = () => {
-  const [uid, setUid] = useState("YI8s1HWBnXPMLar2vWASK1Ctv9A3");
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const [uid, setUid] = useState(userInfo.uid);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [pictureUrl, setPictureUrl] = useState("https://insure2drive.co.uk/wp-content/uploads/2021/04/parked-car-shutterstock_573830026-copy.jpg");
@@ -25,17 +27,11 @@ const ParkedCarForm = () => {
   const [reminder, setReminder] = useState(5);
   const [notes, setNotes] = useState("");
 
-  // location data
-  // const [userLocation, setUserLocation] = useState({});
-
   // get user location
   useEffect(() => {
     console.log("on form load");
     Location.getCurrentPositionAsync({})
       .then((currentLocation) => {
-        console.log('currentLocation', currentLocation.coords);
-        console.log('latitude', currentLocation.coords.latitude);
-        console.log('longitude', currentLocation.coords.longitude);
         setLatitude(currentLocation.coords.latitude);
         setLongitude(currentLocation.coords.longitude);
     })
@@ -68,7 +64,7 @@ const ParkedCarForm = () => {
       });
 
     triggerNotifications(duration, reminder);
-  }, [duration, reminder, notes, latitude, longitude]);
+  }, [uid, duration, reminder, notes, latitude, longitude, pictureUrl]);
 
   return (
     <ScrollView>
