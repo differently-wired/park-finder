@@ -4,7 +4,6 @@ import { Button, StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { MapTemplate } from "../templates/map-template";
 import * as Location from "expo-location";
-import { ImageUriContext } from "../contexts/ParkedCarUri";
 
 export default function TomTomMaps() {
   // webRef to be used for scroller
@@ -13,7 +12,6 @@ export default function TomTomMaps() {
   const [userLocation, setUserLocation] = useState({});
   const [carLocation, setCarLocation] = useState({});
   const [tracking, setTracking] = useState(false);
-  const { imageUri, setImageUri } = useContext(ImageUriContext);
 
   useEffect(() => {
     // get user location
@@ -28,10 +26,6 @@ export default function TomTomMaps() {
     // If there is no pinned location. DO NOT set this and marker will not appear.
     setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
   }, []);
-
-  useEffect(() => {
-    console.log("useEffect", imageUri);
-  }, [imageUri, setImageUri]);
 
   let text = "Waiting...";
   if (userLocation) {

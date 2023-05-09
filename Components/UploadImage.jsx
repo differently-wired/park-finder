@@ -1,16 +1,14 @@
 import { Text, View, Button, Image, StyleSheet } from "react-native";
 import React from "react";
-import { useEffect, useState, useContext } from "react";
-import { ImageUriContext } from "../contexts/ParkedCarUri";
+import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as dbApi from "../utils/dbApi";
 import * as utils from "../utils/utils";
 
 const UploadImage = () => {
-  // const [imageUri, setImageUri] = useState(null);
+  const [imageUri, setImageUri] = useState(null);
   const [permission, setPermission] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-  const { imageUri, setImageUri } = useContext(ImageUriContext);
 
   useEffect(() => {
     (async () => {
