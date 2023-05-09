@@ -8,6 +8,9 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import ActionBarImage from "../Components/NavigationBarImage";
+import LogoTitle from "../Components/LogoTitle";
+import TomTomMaps from "../Components/TomTomMaps";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -54,13 +57,23 @@ const Tabs = () => {
           ),
         })}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Profile"
         component={SignIn}
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" color={color} size={size} />
+          ),
+        }}
+      /> */}
+      <Tab.Screen
+        name="Find Car"
+        component={HomeScreen}
+        options={{
+          // tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="pin-outline" color={color} size={size} />
           ),
         }}
       />
@@ -75,6 +88,9 @@ function AppNavigation(props) {
       // screenOptions={{
       //   headerShown: false,
       // }}
+      // screenOptions={{ headerRight: () => <ActionBarImage /> }}
+      // screenOptions={{ title: "" }}
+      screenOptions={{ headerTitle: (props) => <LogoTitle {...props} /> }}
     >
       <Stack.Screen name="Sign In" component={SignIn} />
       <Stack.Screen name="Sign Up" component={SignUp} />

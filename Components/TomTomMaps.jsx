@@ -39,7 +39,7 @@ export default function TomTomMaps() {
   return (
     <View style={styles.container}>
       {/* Temp button to enable/disable navigation */}
-      <Button title="Track" onPress={() => setTracking(!tracking)} />
+      <Button title="Find Car" onPress={() => setTracking(!tracking)} />
       {/* ---------------------------------------- */}
       <WebView
         ref={(r) => (webRef = r)}

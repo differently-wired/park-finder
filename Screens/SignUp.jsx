@@ -15,6 +15,7 @@ import {
   Keyboard,
   Platform,
   useColorScheme,
+  Image,
 } from "react-native";
 
 export default function SignUp() {
