@@ -95,6 +95,12 @@ export default function SignUp() {
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.pageLink}>
+        <Text>Don't have an account</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Sign In")}>
+          <Text style={styles.signIn}> Sign In</Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -123,6 +129,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     marginTop: 30,
+  },
+  pageLink: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 20,
+  },
+  signIn: {
+    color: "#24a0ed",
+    fontWeight: "bold",
   },
   button: {
     alignItems: "center",

@@ -91,7 +91,10 @@ function AppNavigation(props) {
       // }}
       // screenOptions={{ headerRight: () => <ActionBarImage /> }}
       // screenOptions={{ title: "" }}
-      screenOptions={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+      screenOptions={{
+        headerTitle: () => <LogoTitle />,
+        headerLeft: () => null,
+      }}
     >
       <Stack.Screen name="Sign In" component={SignIn} />
       <Stack.Screen name="Sign Up" component={SignUp} />
