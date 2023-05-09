@@ -11,11 +11,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ActionBarImage from "../Components/NavigationBarImage";
 import LogoTitle from "../Components/LogoTitle";
 import TomTomMaps from "../Components/TomTomMaps";
+import React, { useState } from "react";
 import PinnedHomeScreen from "../Screens/PinnedHomeScreen";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+  const [imgUri, setImgUri] = useState(null);
+
   return (
     <Tab.Navigator
       screenOptions={{
