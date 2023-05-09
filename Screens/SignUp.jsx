@@ -96,7 +96,7 @@ export default function SignUp() {
         </TouchableOpacity>
       </View>
       <View style={styles.pageLink}>
-        <Text>Don't have an account</Text>
+        <Text>Already have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Sign In")}>
           <Text style={styles.signIn}> Sign In</Text>
         </TouchableOpacity>
