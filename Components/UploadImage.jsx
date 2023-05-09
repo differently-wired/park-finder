@@ -53,7 +53,7 @@ const UploadImage = ({ imageUri, setImageUri }) => {
 
   return (
     <View>
-      <Text style={styles.text}>UploadImage</Text>
+      {/* <Text style={styles.text}>UploadImage</Text> */}
       <Button title="Retake Picture" onPress={pickImage} />
       {imageUri && (
         <>
