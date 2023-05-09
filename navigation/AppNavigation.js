@@ -13,6 +13,7 @@ import LogoTitle from "../Components/LogoTitle";
 import TomTomMaps from "../Components/TomTomMaps";
 import React, { useState } from "react";
 import PinnedHomeScreen from "../Screens/PinnedHomeScreen";
+import Profile from "../Screens/Profile";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,16 +63,6 @@ const Tabs = () => {
           ),
         })}
       />
-      {/* <Tab.Screen
-        name="Profile"
-        component={SignIn}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" color={color} size={size} />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="Find Car"
         component={PinnedHomeScreen}
@@ -79,6 +70,16 @@ const Tabs = () => {
           // tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="pin-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          // tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" color={color} size={size} />
           ),
         }}
       />
@@ -104,6 +105,7 @@ function AppNavigation(props) {
       <Stack.Screen name="Sign Up" component={SignUp} />
       <Stack.Screen name="Home Screen" component={Tabs} />
       <Stack.Screen name="ParkedCarForm" component={ParkedCarForm} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 }
