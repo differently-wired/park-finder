@@ -5,15 +5,12 @@ import { ImageUriContext } from "../contexts/ParkedCarUri";
 import * as ImagePicker from "expo-image-picker";
 import * as dbApi from "../utils/dbApi";
 import * as utils from "../utils/utils";
-import { useNavigation } from "@react-navigation/native";
 
 const UploadImage = () => {
-  const [imageUri, setImageUri] = useState(null);
+  // const [imageUri, setImageUri] = useState(null);
   const [permission, setPermission] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-  // const { imageUri, setImageUri } = useContext(ImageUriContext);
-
-  const navigation = useNavigation();
+  const { imageUri, setImageUri } = useContext(ImageUriContext);
 
   useEffect(() => {
     (async () => {
