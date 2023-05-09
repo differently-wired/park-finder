@@ -41,7 +41,7 @@ const Tabs = () => {
         })}
       />
       <Tab.Screen
-        name="Camera"
+        name="Park Car"
         component={ParkedCarForm}
         options={({ route }) => ({
           //   tabBarVisible: getTabBarVisibility(route),
@@ -50,7 +50,7 @@ const Tabs = () => {
           // tabBarVisible: route.state && route.state.index === 0,
           //   tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="camera-outline" color={color} size={size} />
+            <Ionicons name="car-outline" color={color} size={size} />
           ),
         })}
       />
