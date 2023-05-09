@@ -11,18 +11,11 @@ export default function TomTomMaps() {
   let [mapCenter, setMapCenter] = useState("");
   const [userLocation, setUserLocation] = useState({});
   const [carLocation, setCarLocation] = useState({});
-  const [errorMsg, setErrorMsg] = useState(null);
   const [tracking, setTracking] = useState(false);
 
   useEffect(() => {
     // get user location
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
       let currentLocation = await Location.getCurrentPositionAsync({});
 
       const { longitude, latitude } = currentLocation.coords;
@@ -35,9 +28,7 @@ export default function TomTomMaps() {
   }, []);
 
   let text = "Waiting...";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (userLocation) {
+  if (userLocation) {
     text = JSON.stringify(userLocation);
   }
 
