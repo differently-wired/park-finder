@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
+  ActivityIndicator
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -19,7 +20,7 @@ import {
 } from "../utils/auth";
 import * as WebBrowser from "expo-web-browser";
 import { createUserAccount, getUserAccount } from "../utils/dbApi";
-
+import LoadingScreen from "../Components/Loading_Spinner/Loading.js";
 WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
@@ -27,6 +28,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [request, accessToken, promptAsync] = useGoogleAuth();
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   function onSuccess(firebaseUser) {
@@ -37,9 +39,13 @@ function SignIn() {
           email: firebaseUser.email,
           ...user,
         });
-        navigation.navigate("Home Screen");
+        setLoading(false);
+        navigation.replace("Home Screen"); // Use replace instead of navigate
       })
-      .catch((error) => onFailure(error));
+      .catch((error) => {
+        onFailure(error);
+        setLoading(false);
+      });
   }
 
   function onFailure(error) {
@@ -49,6 +55,7 @@ function SignIn() {
 
   useEffect(() => {
     if (!accessToken) return;
+    setLoading(true)
     signInWithGoogle(accessToken)
       .then((credential) => {
         const firebaseUser = credential.user;
@@ -61,18 +68,26 @@ function SignIn() {
       .then(([firebaseUser, _]) => {
         onSuccess(firebaseUser);
       })
-      .catch((error) => onFailure(error));
+      .catch((error) => {
+        onFailure(error);
+        setLoading(false);
+      })
   }, [accessToken]);
 
   const handleSignIn = () => {
+    setLoading(true)
     signInWithEmail(email.trim(), password)
       .then((credential) => onSuccess(credential.user))
-      .catch((error) => onFailure(error));
+      .catch((error) => {
+        onFailure(error);
+        setLoading(false);
+      });
   };
+
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "*" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <Text style={styles.heading}>Welcome</Text>
@@ -97,8 +112,13 @@ function SignIn() {
         <TouchableOpacity
           onPress={handleSignIn}
           style={[styles.button, styles.buttonOutline]}
+          disabled={loading}
         >
-          <Text style={styles.buttonOutlineText}>Sign in</Text>
+          {loading ? (
+            <LoadingScreen /> // Render LoadingScreen component
+          ) : (
+            <Text style={styles.buttonOutlineText}>Sign in</Text>
+          )}
         </TouchableOpacity>
         <TouchableOpacity disabled={!request} onPress={() => promptAsync()}>
           <View style={styles.GoogleButton}>
@@ -111,15 +131,17 @@ function SignIn() {
         </TouchableOpacity>
       </View>
       <View style={styles.pageLink}>
-        <Text>Don't have an account</Text>
+        <Text>Don't have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Sign Up")}>
           <Text style={styles.signUp}> Sign Up</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
-}
 
+
+
+}
 const styles = StyleSheet.create({
   container: {
     fontSize: 53,

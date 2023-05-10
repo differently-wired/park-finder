@@ -57,14 +57,6 @@ export default function TomTomMaps() {
 
   return (
     <View style={styles.container}>
-      {/* Temp button to enable/disable navigation */}
-      <Button
-        title="Find Car"
-        onPress={() => {
-          setTracking(!tracking);
-        }}
-      />
-      {/* ---------------------------------------- */}
       <WebView
         ref={(r) => (webRef = r)}
         onMessage={handleMapEvent}
@@ -74,6 +66,17 @@ export default function TomTomMaps() {
           html: MapTemplate(userLocation, carLocation, tracking, imgUri),
         }}
       />
+      {/* Button to enable/disable navigation */}
+      {carLocation.longitude !== undefined && (
+        <Button
+          title="Find My Car"
+          color="#6C21DC"
+          onPress={() => {
+            setTracking(!tracking);
+          }}
+        />
+      )}
+      {/* ---------------------------------------- */}
     </View>
   );
 }

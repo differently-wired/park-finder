@@ -8,7 +8,6 @@ import { WebView } from "react-native-webview";
 import { MapTemplate } from "../templates/map-template";
 import * as Location from "expo-location";
 // import NotificationSender from "../Components/NotificationSender";
-
 export default function PinnedHomeScreen() {
   const { userInfo } = useContext(UserInfoContext);
   // webRef to be used for scroller
