@@ -31,12 +31,6 @@ const UploadImage = ({ imageUri, setImageUri }) => {
     pickImage();
   }, []);
 
-  // useEffect(() => {
-  //   if (uploaded) {
-  //     alert("Image uploaded!");
-  //   }
-  // }, [uploaded]);
-
   const pickImage = () => {
     utils
       .takePicture()
@@ -52,18 +46,11 @@ const UploadImage = ({ imageUri, setImageUri }) => {
       });
   };
 
-  // const uploadImagePress = async () => {
-  //   try {
-  //     await dbApi.uploadParkedCarImageToStorage(imageUri);
-  //     setUploaded(true);
-  //   } catch (err) {
-  //     alert(err);
-  //   }
-  // };
-
   return (
-    <View style={styles.view}>
-      {imageUri && (
+    <View>
+      {/* <Text style={styles.text}>UploadImage</Text> */}
+      <Button title="Retake Picture" onPress={pickImage} />
+      {imageUri !== "no photo" && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />
           <Button title="Retake Picture" onPress={pickImage} />
