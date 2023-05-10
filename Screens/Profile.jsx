@@ -2,7 +2,8 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { useContext, useState } from "react";
 import { UserInfoContext } from "../contexts/UserInfo";
 import UploadProfilePic from "../Components/UploadProfilePic";
-import {uploadProfileImageToStorage} from '../utils/dbApi'
+import { uploadProfileImageToStorage } from '../utils/dbApi'
+import { getProfileImageFromStorage } from '../utils/dbApi'
 
 export const Profile = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -10,6 +11,8 @@ export const Profile = () => {
   const [imageUri, setImageUri] = useState(null)
 
   const handleImage = async (uri) => {
+
+
     try {
       setImageUri(uri)
       await uploadProfileImageToStorage(uri)
@@ -19,6 +22,7 @@ export const Profile = () => {
     }
 
   }
+
 
   return (
     <View style={styles.container}>

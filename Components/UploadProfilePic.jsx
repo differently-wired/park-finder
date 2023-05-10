@@ -14,17 +14,11 @@ export default function UploadProfilePic({ onImageSelect }) {
             quality: 1,
         });
 
-        // console.log(result);
-
         if (!result.canceled) {
             setImage(result.assets[0].uri);
             onImageSelect(result.assets[0].uri)
-            
         }
-
-
     };
-
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Button
@@ -32,7 +26,6 @@ export default function UploadProfilePic({ onImageSelect }) {
                 onPress={pickImage}
                 style={{ backgroundColor: 'blue' }}
             />
-            {/* {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
         </View>
     );
 
