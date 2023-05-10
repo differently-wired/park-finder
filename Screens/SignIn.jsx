@@ -214,15 +214,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: "black",
     justifyContent: "center",
-    alignitems: "center",
+    alignItems: "center",
     flexDirection: "row",
   },
   GoogleImage: {
     width: 20,
     height: 20,
     marginLeft: 5,
-    alignContent: "center",
-    justifyContent: "center",
   },
   GoogleButtonText: {
     fontSize: 18,
