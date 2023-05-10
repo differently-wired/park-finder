@@ -6,6 +6,7 @@ import {
   TextInput,
   View,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useContext, useState, useCallback, useEffect } from "react";
@@ -17,6 +18,8 @@ import * as Location from "expo-location";
 import { UserInfoContext } from "../contexts/UserInfo";
 import { uploadParkedCarImageToStorage } from "../utils/dbApi";
 import { useNavigation } from "@react-navigation/native";
+
+const fullHeight = Dimensions.get("window").height;
 
 const ParkedCarForm = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -83,10 +86,14 @@ const ParkedCarForm = () => {
   return (
     <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
-        <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
-        <Text style={styles.label}>Parking Duration</Text>
-        <ParkingFormModal notes={notes} setNotes={setNotes} />
-        <View style={styles.movingpicker}>
+        <View style={styles.imageContainer}>
+          <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
+        </View>
+        <View style={styles.noteContainer}>
+          <ParkingFormModal notes={notes} setNotes={setNotes} />
+        </View>
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Parking Duration</Text>
           <Picker
             selectedValue={duration}
             onValueChange={(itemValue) => setDuration(itemValue)}
@@ -109,12 +116,13 @@ const ParkedCarForm = () => {
             <Picker.Item label="30 minutes before" value={30} />
           </Picker>
         </View>
-
-        <Button
-          title="Submit"
-          style={styles.submitButton}
-          onPress={handleSubmit}
-        />
+        <View style={styles.submitContainer}>
+          <Button
+            title="Submit"
+            style={styles.submitButton}
+            onPress={handleSubmit}
+          />
+        </View>
       </KeyboardAvoidingView>
     </ScrollView>
   );
@@ -130,6 +138,19 @@ const styles = StyleSheet.create({
     height: 760,
     backgroundColor: "white",
   },
+  imageContainer: {
+    borderWidth: 5,
+    borderColor: "black",
+  },
+  noteContainer: { borderWidth: 5, borderColor: "black" },
+  pickerContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    borderColor: "black",
+    borderWidth: 5,
+    height: 300,
+  },
+  submitContainer: { borderWidth: 5, borderColor: "black" },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -143,15 +164,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 20,
     marginBottom: 10,
-  },
-  picker: {
-    width: 200,
-    height: 40,
-    marginBottom: 20,
-  },
-  movingpicker: {
-    flexDirection: "row",
-    alignContent: "center",
   },
   rightPicker: { width: 150, height: 40, marginBottom: 20 },
   leftPicker: { width: 150, height: 40, marginBottom: 20 },
