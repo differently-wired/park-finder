@@ -58,3 +58,15 @@ export const getParkedCarImageFromStorage = async () => {
   const url = await getDownloadURL(imageRef);
   return url;
 };
+// Upload profile pic to firebase storage --------------------------------------------
+export const uploadProfileImageToStorage = async (imageUri) => {
+ 
+  const response = await fetch(imageUri);
+  const blob = await response.blob();
+  const uid = FIREBASE_AUTH.currentUser.uid;
+  const imageRef = ref(FIREBASE_STORAGE, `profile_pics/${uid}/profile_pic.jpg`);
+  await uploadBytes(imageRef, blob);
+
+
+};
+

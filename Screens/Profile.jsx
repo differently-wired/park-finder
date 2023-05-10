@@ -1,20 +1,34 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useContext } from "react";
-
+import { useContext, useState } from "react";
 import { UserInfoContext } from "../contexts/UserInfo";
+import UploadProfilePic from "../Components/UploadProfilePic";
+import {uploadProfileImageToStorage} from '../utils/dbApi'
 
-const Profile = () => {
+export const Profile = () => {
   const { userInfo } = useContext(UserInfoContext);
   const { defaultParkDuration, defaultReminder, email, username } = userInfo;
+  const [imageUri, setImageUri] = useState(null)
+
+  const handleImage = async (uri) => {
+    try {
+      setImageUri(uri)
+      await uploadProfileImageToStorage(uri)
+      console.log(uri, 'Handle image uri')
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <View style={styles.container}>
       <Image
         style={styles.profilePic}
         source={{
-          uri: "https://pbs.twimg.com/profile_images/993587234187161601/vTY3pvko_400x400.jpg",
+          uri: imageUri || "https://pbs.twimg.com/profile_images/993587234187161601/vTY3pvko_400x400.jpg",
         }}
       />
+      <UploadProfilePic onImageSelect={handleImage} />
       <Text style={styles.username}>{username}</Text>
       <Text style={styles.email}>{email}</Text>
       <Text style={styles.text}>
