@@ -63,7 +63,7 @@ function SignIn() {
           firebaseUser,
           // don't return, just ignore on any errors
           // This is resetting user data, however for the demo we made need to keep it so car activity resets
-          createUserAccount(firebaseUser.uid, firebaseUser.displayName),
+          // createUserAccount(firebaseUser.uid, firebaseUser.displayName),
         ]);
       })
       .then(([firebaseUser, _]) => {

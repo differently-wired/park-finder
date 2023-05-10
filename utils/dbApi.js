@@ -1,4 +1,4 @@
-import { setDoc, doc, getDoc } from "@firebase/firestore";
+import { setDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
 import {
   FIRESTORE_DB,
   FIREBASE_STORAGE,
@@ -54,6 +54,13 @@ export const getParkingsDetails = async () => {
   } else {
     return Promise.reject({ error: "User not found" });
   }
+};
+
+//Update user account ---------------------------------------------------------
+export const updateUserAccount = async (data) => {
+  const uid = FIREBASE_AUTH.currentUser.uid;
+  const userRef = doc(FIRESTORE_DB, "users_list", uid);
+  await updateDoc(userRef, data);
 };
 
 // Upload image to firebase storage --------------------------------------------

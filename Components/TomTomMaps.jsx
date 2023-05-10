@@ -16,9 +16,11 @@ export default function TomTomMaps() {
   const [carLocation, setCarLocation] = useState({});
   const [tracking, setTracking] = useState(false);
   const [imgUri, setImgUri] = useState(null);
+  const [showCar, setShowCar] = useState(false);
   const { userInfo } = useContext(UserInfoContext);
 
   useEffect(() => {
+    setShowCar(userInfo.activeParking);
     // get user location
     (async () => {
       let currentLocation = await Location.getCurrentPositionAsync({});
@@ -30,7 +32,7 @@ export default function TomTomMaps() {
     //get car img from user/db
     // If user has no active parking, DO NOT set this and image will not appear.
     (async () => {
-      if (userInfo.activeParking === true) {
+      if (showCar === true) {
         (async () => {
           try {
             let carImg = await getParkedCarImageFromStorage();
@@ -56,7 +58,8 @@ export default function TomTomMaps() {
         // setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
       }
     })();
-  }, [userInfo]);
+    console.log(userInfo);
+  }, [userInfo, showCar]);
 
   let text = "Waiting...";
   if (userLocation) {
@@ -75,11 +78,17 @@ export default function TomTomMaps() {
         style={styles.map}
         originWhitelist={["*"]}
         source={{
-          html: MapTemplate(userLocation, carLocation, tracking, imgUri),
+          html: MapTemplate(
+            userLocation,
+            carLocation,
+            tracking,
+            imgUri,
+            showCar
+          ),
         }}
       />
       {/* Button to enable/disable navigation */}
-      {carLocation.longitude !== undefined && (
+      {showCar && (
         <Button
           title="Find My Car"
           color="#6C21DC"

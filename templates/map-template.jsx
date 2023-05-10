@@ -1,6 +1,12 @@
 import { TOMTOM_DEV_KEY } from "@env";
 
-export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
+export const MapTemplate = (
+  userLocation,
+  carLocation,
+  tracking,
+  imgUri,
+  showCar
+) => {
   return `
     <div>
       <style>
@@ -121,7 +127,7 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
           carMarkerIcon.style.backgroundImage = 'url(https://png.pngtree.com/png-clipart/20190516/original/pngtree-car-icon-sign-png-image_3568162.jpg)'
           carMarkerBorder.appendChild(carMarkerIcon)
 
-          if (carCoords) {
+          if (showCar) {
           let carMarker = new tt.Marker({
             element: carMarkerBorder
           })
