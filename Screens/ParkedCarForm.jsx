@@ -92,28 +92,34 @@ const ParkedCarForm = () => {
           <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
         </View>
         <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Parking Duration</Text>
-          <Picker
-            selectedValue={duration}
-            onValueChange={(itemValue) => setDuration(itemValue)}
-            style={styles.leftPicker}
-          >
-            <Picker.Item label="30 minutes" value={30} />
-            <Picker.Item label="1 hour" value={60} />
-            <Picker.Item label="2 hours" value={120} />
-            <Picker.Item label="3 hours" value={180} />
-          </Picker>
-          <Text style={styles.label}>Parking Reminder</Text>
-          <Picker
-            selectedValue={reminder}
-            onValueChange={(itemValue) => setReminder(itemValue)}
-            style={styles.rightPicker}
-          >
-            <Picker.Item label="5 minutes before" value={5} />
-            <Picker.Item label="10 minutes before" value={10} />
-            <Picker.Item label="15 minutes before" value={15} />
-            <Picker.Item label="30 minutes before" value={30} />
-          </Picker>
+          {/* <View style={styles.pickerColumn}> */}
+          <View>
+            <Text style={styles.label}>Parking Duration</Text>
+            <Picker
+              selectedValue={duration}
+              onValueChange={(itemValue) => setDuration(itemValue)}
+              style={styles.leftPicker}
+            >
+              <Picker.Item label="30 minutes" value={30} />
+              <Picker.Item label="1 hour" value={60} />
+              <Picker.Item label="2 hours" value={120} />
+              <Picker.Item label="3 hours" value={180} />
+            </Picker>
+          </View>
+          {/* <View style={styles.pickerColumn}> */}
+          <View>
+            <Text style={styles.label}>Parking Reminder</Text>
+            <Picker
+              selectedValue={reminder}
+              onValueChange={(itemValue) => setReminder(itemValue)}
+              style={styles.rightPicker}
+            >
+              <Picker.Item label="5 minutes before" value={5} />
+              <Picker.Item label="10 minutes before" value={10} />
+              <Picker.Item label="15 minutes before" value={15} />
+              <Picker.Item label="30 minutes before" value={30} />
+            </Picker>
+          </View>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -146,10 +152,12 @@ const styles = StyleSheet.create({
   noteContainer: { borderWidth: 5, borderColor: "black" },
   pickerContainer: {
     flexDirection: "row",
-    alignContent: "center",
+    justifyContent: "space-between",
+    // alignContent: "center",
     borderColor: "black",
     borderWidth: 5,
     height: 300,
+    width: "100%",
   },
   buttonContainer: {
     width: "100%",
@@ -157,7 +165,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: -200,
+    // marginHorizontal: -200,
   },
   title: {
     fontSize: 24,
