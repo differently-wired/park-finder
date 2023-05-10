@@ -4,15 +4,10 @@ import SignIn from "../Screens/SignIn";
 import SignUp from "../Screens/SignUp";
 import ParkedCarForm from "../Screens/ParkedCarForm";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import ActionBarImage from "../Components/NavigationBarImage";
 import LogoTitle from "../Components/LogoTitle";
-import TomTomMaps from "../Components/TomTomMaps";
 import React, { useState } from "react";
-import PinnedHomeScreen from "../Screens/PinnedHomeScreen";
 import Profile from "../Screens/Profile";
 
 const Stack = createStackNavigator();
@@ -64,20 +59,9 @@ const Tabs = () => {
         })}
       />
       <Tab.Screen
-        name="Find Car"
-        component={PinnedHomeScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="pin-outline" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          // tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" color={color} size={size} />
           ),
