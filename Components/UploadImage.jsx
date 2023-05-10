@@ -22,14 +22,9 @@ const UploadImage = ({ imageUri, setImageUri }) => {
     pickImage();
   }, []);
 
-  // useEffect(() => {
-  //   if (uploaded) {
-  //     alert("Image uploaded!");
-  //   }
-  // }, [uploaded]);
-
   const pickImage = () => {
-    utils.takePicture()
+    utils
+      .takePicture()
       .then((result) => {
         if (!result.assets[0].cancelled) {
           console.log("uploadImg", result.assets[0].uri);
@@ -38,24 +33,15 @@ const UploadImage = ({ imageUri, setImageUri }) => {
       })
       // remove Possible Unhandled Promise Rejection warnings
       .catch((error) => {
-        console.log('pickImage', error);
-      })
+        console.log("pickImage", error);
+      });
   };
-
-  // const uploadImagePress = async () => {
-  //   try {
-  //     await dbApi.uploadParkedCarImageToStorage(imageUri);
-  //     setUploaded(true);
-  //   } catch (err) {
-  //     alert(err);
-  //   }
-  // };
 
   return (
     <View>
       {/* <Text style={styles.text}>UploadImage</Text> */}
       <Button title="Retake Picture" onPress={pickImage} />
-      {imageUri && (
+      {imageUri !== "no photo" && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />
           {/* <Button
