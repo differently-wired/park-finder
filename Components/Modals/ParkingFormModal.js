@@ -86,9 +86,8 @@ const styles = StyleSheet.create({
     // marginTop: 25,
     // padding: 55,
   },
-
   noteText: {
     fontSize: 18,
-    color: "#017bfe",
+    color: "#6c21dc",
   },
 });

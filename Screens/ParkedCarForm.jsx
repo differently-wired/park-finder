@@ -135,7 +135,6 @@ const ParkedCarForm = () => {
         // onChangeText={(text) => setEmail(text)}
         style={styles.Input}
         multiline={true}
-
       /> */}
       {/* <Button
           title="Submit"
@@ -151,23 +150,10 @@ const ParkedCarForm = () => {
         onPress={handleSubmit}
       /> */}
       <TouchableOpacity
-        style={{
-          backgroundColor: "#017bfe",
-          width: width,
-          alignItems: "center",
-        }}
+        style={styles.submitButtonContainer}
         onPress={handleSubmit}
       >
-        <Text
-          style={{
-            fontSize: 18,
-            backgroundColor: "#017bfe",
-            color: "white",
-            padding: 8,
-          }}
-        >
-          Submit
-        </Text>
+        <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
@@ -210,6 +196,16 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
   },
+  submitButtonContainer: {
+    backgroundColor: "#6C21DC",
+    width: width,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    fontSize: 18,
+    color: "white",
+    padding: 8,
+  },
   buttonContainer: {
     width: "100%",
     // borderWidth: 5,
@@ -220,8 +216,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    width: 150,
+    width: 160,
     marginTop: 20,
+    fontWeight: "bold",
     // marginBottom: 10,
   },
   rightPicker: {
