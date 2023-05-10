@@ -1,5 +1,5 @@
 import { FIRESTORE_DB } from '../firebaseConfig'
-import { Timestamp, collection, doc, addDoc, setDoc, query, orderBy, limit, getDocs } from 'firebase/firestore'
+import { Timestamp, collection, doc, addDoc, setDoc, query, orderBy, limit, getDocs, updateDoc } from 'firebase/firestore'
 
 export async function addParking(parkObj) {
   console.log("Add Parking", parkObj.uid)
@@ -23,14 +23,13 @@ export async function addParking(parkObj) {
   const { id } = await addDoc(parkRef, parkDoc);
 
   const userRef = doc(FIRESTORE_DB, 'user_list', parkObj.uid);
-  await setDoc(
+  await updateDoc(
     userRef,
     { activeParking: parkObj.action == 1 },
-    { merge: true }
   );
 
   const userParkRef = doc(
-    userRef,
+    FIRESTORE_DB, 'user_list', parkObj.uid,
     'parking_hist',
     id
   )
