@@ -22,7 +22,7 @@ export function ParkingFormModal(props) {
   const _renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.button}>
-        <Text>{text}</Text>
+        <Text style={styles.noteText}>{text}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -35,9 +35,9 @@ export function ParkingFormModal(props) {
         onChangeText={(text) => setNewNote(text)}
         style={styles.input}
       />
-      <View style={{ flexDirection: "row" }}>
-        {_renderButton("Submit", saveNote)}
+      <View style={styles.modalForm}>
         {_renderButton("Cancel", () => setVisibleModal(null))}
+        {_renderButton("Submit", saveNote)}
       </View>
     </View>
   );
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "black",
   },
   button: {
-    backgroundColor: "lightblue",
+    // backgroundColor: "lightblue",
     padding: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 0.1)",
     // marginRight: 8,
   },
+  modalForm: { flexDirection: "row" },
   modalContent: {
     backgroundColor: "white",
     padding: 22,
@@ -77,11 +78,17 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 0.0)",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 4,
-    padding: 8,
-    marginBottom: 8,
-    width: "100%",
+    backgroundColor: "#f2f2f2",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    width: "80%",
+    // marginTop: 25,
+    // padding: 55,
+  },
+
+  noteText: {
+    fontSize: 18,
+    color: "#017bfe",
   },
 });

@@ -1,9 +1,18 @@
-import { Text, View, Button, Image, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 // import React from "react";
 import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 // import * as dbApi from "../utils/dbApi";
 import * as utils from "../utils/utils";
+
+const width = Dimensions.get("window").width;
 
 const UploadImage = ({ imageUri, setImageUri }) => {
   // const [imageUri, setImageUri] = useState(null);
@@ -79,8 +88,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: 450,
-    height: 300,
+    width: "100%",
+    height: 250,
     marginTop: 0,
     marginBottom: 0,
     alignSelf: "center",

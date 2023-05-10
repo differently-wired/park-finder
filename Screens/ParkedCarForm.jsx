@@ -8,6 +8,7 @@ import {
   ScrollView,
   Dimensions,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useContext, useState, useCallback, useEffect } from "react";
@@ -21,6 +22,7 @@ import { uploadParkedCarImageToStorage } from "../utils/dbApi";
 import { useNavigation } from "@react-navigation/native";
 
 const fullHeight = Dimensions.get("window").height;
+const width = Dimensions.get("window").width;
 const height = Platform.OS === "ios" ? "padding" : "height";
 
 const ParkedCarForm = () => {
@@ -86,52 +88,88 @@ const ParkedCarForm = () => {
   }, [uid, duration, reminder, notes, latitude, longitude, imageUri]);
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.imageContainer}>
-          <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
+    <KeyboardAvoidingView style={styles.container}>
+      <View style={styles.imageContainer}>
+        <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
+      </View>
+      <View style={styles.pickerContainer}>
+        <View style={styles.pickerColumn}>
+          <Text style={styles.label}>Parking Duration</Text>
+          <Picker
+            selectedValue={duration}
+            onValueChange={(itemValue) => setDuration(itemValue)}
+            style={styles.leftPicker}
+          >
+            <Picker.Item label="30 mins" value={30} />
+            <Picker.Item label="1 hour" value={60} />
+            <Picker.Item label="2 hours" value={120} />
+            <Picker.Item label="3 hours" value={180} />
+          </Picker>
         </View>
-        <View style={styles.pickerContainer}>
-          {/* <View style={styles.pickerColumn}> */}
-          <View>
-            <Text style={styles.label}>Parking Duration</Text>
-            <Picker
-              selectedValue={duration}
-              onValueChange={(itemValue) => setDuration(itemValue)}
-              style={styles.leftPicker}
-            >
-              <Picker.Item label="30 minutes" value={30} />
-              <Picker.Item label="1 hour" value={60} />
-              <Picker.Item label="2 hours" value={120} />
-              <Picker.Item label="3 hours" value={180} />
-            </Picker>
-          </View>
-          {/* <View style={styles.pickerColumn}> */}
-          <View>
-            <Text style={styles.label}>Parking Reminder</Text>
-            <Picker
-              selectedValue={reminder}
-              onValueChange={(itemValue) => setReminder(itemValue)}
-              style={styles.rightPicker}
-            >
-              <Picker.Item label="5 minutes before" value={5} />
-              <Picker.Item label="10 minutes before" value={10} />
-              <Picker.Item label="15 minutes before" value={15} />
-              <Picker.Item label="30 minutes before" value={30} />
-            </Picker>
-          </View>
+        <View style={styles.pickerColumn}>
+          <Text style={styles.label}>Parking Reminder</Text>
+          <Picker
+            selectedValue={reminder}
+            onValueChange={(itemValue) => setReminder(itemValue)}
+            style={styles.rightPicker}
+          >
+            <Picker.Item label="5 mins" value={5} />
+            <Picker.Item label="10 mins" value={10} />
+            <Picker.Item label="15 mins" value={15} />
+            <Picker.Item label="30 mins" value={30} />
+          </Picker>
         </View>
+      </View>
 
-        <View style={styles.buttonContainer}>
-          <ParkingFormModal notes={notes} setNotes={setNotes} />
-          <Button
-            title="Submit"
-            style={styles.submitButton}
-            onPress={handleSubmit}
-          />
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      <View style={styles.buttonContainer}>
+        <ParkingFormModal notes={notes} setNotes={setNotes} />
+        {/* <Button
+          title="Submit"
+          // style={styles.submitButton}
+          onPress={handleSubmit}
+        /> */}
+      </View>
+      {/* <TextInput
+        placeholder="add a note..."
+        // value={email}
+        // onChangeText={(text) => setEmail(text)}
+        style={styles.Input}
+        multiline={true}
+
+      /> */}
+      {/* <Button
+          title="Submit"
+          style={styles.submitB}
+          // color="#6C21DC"
+          onPress={() => {
+            onPress = { handleSubmit };
+          }}
+        /> */}
+      {/* <Button
+        title="Submit"
+        style={styles.submitButton}
+        onPress={handleSubmit}
+      /> */}
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#017bfe",
+          width: width,
+          alignItems: "center",
+        }}
+        onPress={handleSubmit}
+      >
+        <Text
+          style={{
+            fontSize: 18,
+            backgroundColor: "#017bfe",
+            color: "white",
+            padding: 8,
+          }}
+        >
+          Submit
+        </Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -139,42 +177,46 @@ export default ParkedCarForm;
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    paddingTop: 20,
+    // paddingBottom: 20,
+    paddingHorizontal: 20,
     alignItems: "center",
-    padding: 0,
+    // padding: 0,
     height: 760,
     backgroundColor: "white",
   },
   imageContainer: {
-    borderWidth: 5,
-    borderColor: "black",
+    width: "100%",
+    // borderWidth: 5,
+    // borderColor: "black",
   },
   noteContainer: { borderWidth: 5, borderColor: "black" },
   pickerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     // alignContent: "center",
-    borderColor: "black",
-    borderWidth: 5,
+    // borderColor: "black",
+    // borderWidth: 5,
     height: 300,
     width: "100%",
   },
+  pickerColumn: {
+    flex: 1,
+    alignItems: "center",
+    padding: 0,
+    margin: 0,
+  },
   buttonContainer: {
     width: "100%",
-    borderWidth: 5,
-    borderColor: "black",
+    // borderWidth: 5,
+    // borderColor: "black",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     // marginHorizontal: -200,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 10,
   },
   label: {
     fontSize: 18,
@@ -182,10 +224,27 @@ const styles = StyleSheet.create({
     marginTop: 20,
     // marginBottom: 10,
   },
-  rightPicker: { width: 150, height: 40, marginBottom: 20 },
+  rightPicker: {
+    width: 150,
+    height: 40,
+    marginBottom: 20,
+  },
   leftPicker: { width: 150, height: 40, marginBottom: 20 },
   submitButton: {
     marginTop: 20,
     width: 150,
+  },
+  // submitButton: {
+  //   backgroundColor: "blue",
+  // },
+  Input: {
+    backgroundColor: "#f2f2f2",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    // marginTop: 25,
+    width: "90%",
+    fontSize: 18,
+    // padding: 55,
   },
 });
