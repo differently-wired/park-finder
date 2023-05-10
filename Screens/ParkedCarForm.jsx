@@ -6,6 +6,7 @@ import {
   TextInput,
   View,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useContext, useState, useCallback, useEffect } from "react";
@@ -16,6 +17,8 @@ import { addParking } from "../utils/parkings";
 import * as Notifications from "expo-notifications";
 import * as Location from "expo-location";
 import TimePicker from "../Components/TimePicker";
+
+const height = Dimensions.get("window").height;
 
 const ParkedCarForm = () => {
   const [uid, setUid] = useState("YI8s1HWBnXPMLar2vWASK1Ctv9A3");
@@ -134,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 5,
     height: 760,
-    backgroundColor: "white",
+    backgroundColor: "yellow",
   },
   title: {
     fontSize: 24,
