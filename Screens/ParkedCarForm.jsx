@@ -7,6 +7,7 @@ import {
   View,
   ScrollView,
   Dimensions,
+  Platform,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useContext, useState, useCallback, useEffect } from "react";
@@ -20,6 +21,7 @@ import { uploadParkedCarImageToStorage } from "../utils/dbApi";
 import { useNavigation } from "@react-navigation/native";
 
 const fullHeight = Dimensions.get("window").height;
+const height = Platform.OS === "ios" ? "padding" : "height";
 
 const ParkedCarForm = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -89,9 +91,6 @@ const ParkedCarForm = () => {
         <View style={styles.imageContainer}>
           <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
         </View>
-        <View style={styles.noteContainer}>
-          <ParkingFormModal notes={notes} setNotes={setNotes} />
-        </View>
         <View style={styles.pickerContainer}>
           <Text style={styles.label}>Parking Duration</Text>
           <Picker
@@ -116,7 +115,9 @@ const ParkedCarForm = () => {
             <Picker.Item label="30 minutes before" value={30} />
           </Picker>
         </View>
-        <View style={styles.submitContainer}>
+
+        <View style={styles.buttonContainer}>
+          <ParkingFormModal notes={notes} setNotes={setNotes} />
           <Button
             title="Submit"
             style={styles.submitButton}
@@ -150,7 +151,14 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     height: 300,
   },
-  submitContainer: { borderWidth: 5, borderColor: "black" },
+  buttonContainer: {
+    width: "100%",
+    borderWidth: 5,
+    borderColor: "black",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: -200,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -162,8 +170,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
+    width: 150,
     marginTop: 20,
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   rightPicker: { width: 150, height: 40, marginBottom: 20 },
   leftPicker: { width: 150, height: 40, marginBottom: 20 },
