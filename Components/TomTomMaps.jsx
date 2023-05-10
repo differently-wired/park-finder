@@ -28,20 +28,22 @@ export default function TomTomMaps() {
 
     //get car img from user/db
     // If user has no active parking, DO NOT set this and image will not appear.
-    if (userInfo.activeParking === true) {
-      (async () => {
-        try {
-          let carImg = await getParkedCarImageFromStorage();
-          setImgUri(carImg);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+    (async () => {
+      if (userInfo.activeParking === true) {
+        (async () => {
+          try {
+            let carImg = await getParkedCarImageFromStorage();
+            setImgUri(carImg);
+          } catch (error) {
+            console.log(error);
+          }
+        })();
 
-      // get car location from user/db
-      // If there is no pinned location. DO NOT set this and marker will not appear.
-      setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
-    }
+        // get car location from user/db
+        // If there is no pinned location. DO NOT set this and marker will not appear.
+        setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
+      }
+    })();
   }, [userInfo]);
 
   let text = "Waiting...";
