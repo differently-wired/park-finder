@@ -85,29 +85,36 @@ const ParkedCarForm = () => {
       <KeyboardAvoidingView style={styles.container}>
         <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
         <Text style={styles.label}>Parking Duration</Text>
-        <Picker
-          selectedValue={duration}
-          onValueChange={(itemValue) => setDuration(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="30 minutes" value={30} />
-          <Picker.Item label="1 hour" value={60} />
-          <Picker.Item label="2 hours" value={120} />
-          <Picker.Item label="3 hours" value={180} />
-        </Picker>
-        <Text style={styles.label}>Parking Reminder</Text>
-        <Picker
-          selectedValue={reminder}
-          onValueChange={(itemValue) => setReminder(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="5 minutes before" value={5} />
-          <Picker.Item label="10 minutes before" value={10} />
-          <Picker.Item label="15 minutes before" value={15} />
-          <Picker.Item label="30 minutes before" value={30} />
-        </Picker>
         <ParkingFormModal notes={notes} setNotes={setNotes} />
-        <Button title="Submit" style={styles.button} onPress={handleSubmit} />
+        <View style={styles.movingpicker}>
+          <Picker
+            selectedValue={duration}
+            onValueChange={(itemValue) => setDuration(itemValue)}
+            style={styles.leftPicker}
+          >
+            <Picker.Item label="30 minutes" value={30} />
+            <Picker.Item label="1 hour" value={60} />
+            <Picker.Item label="2 hours" value={120} />
+            <Picker.Item label="3 hours" value={180} />
+          </Picker>
+          <Text style={styles.label}>Parking Reminder</Text>
+          <Picker
+            selectedValue={reminder}
+            onValueChange={(itemValue) => setReminder(itemValue)}
+            style={styles.rightPicker}
+          >
+            <Picker.Item label="5 minutes before" value={5} />
+            <Picker.Item label="10 minutes before" value={10} />
+            <Picker.Item label="15 minutes before" value={15} />
+            <Picker.Item label="30 minutes before" value={30} />
+          </Picker>
+        </View>
+
+        <Button
+          title="Submit"
+          style={styles.submitButton}
+          onPress={handleSubmit}
+        />
       </KeyboardAvoidingView>
     </ScrollView>
   );
@@ -119,7 +126,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
     padding: 0,
     height: 760,
     backgroundColor: "white",
@@ -143,7 +149,13 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 20,
   },
-  button: {
+  movingpicker: {
+    flexDirection: "row",
+    alignContent: "center",
+  },
+  rightPicker: { width: 150, height: 40, marginBottom: 20 },
+  leftPicker: { width: 150, height: 40, marginBottom: 20 },
+  submitButton: {
     marginTop: 20,
     width: 150,
   },
