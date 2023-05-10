@@ -33,7 +33,7 @@ export const createUserAccount = async (uid, username) => {
 // Get user account ---------------------------------------------------------
 
 export const getUserAccount = async (uid) => {
-  console.log("Getting user account", uid);
+  console.log("Getting user account", uid)
   const userRef = doc(FIRESTORE_DB, "users_list", uid);
   return getDoc(userRef).then((userSnap) => {
     if (userSnap.exists()) {

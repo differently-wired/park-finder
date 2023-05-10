@@ -43,6 +43,7 @@ export default function TomTomMaps() {
         })();
 
         // get car location from user/db
+
         (async () => {
           try {
             let parkingDetails = await getParkingsDetails();
