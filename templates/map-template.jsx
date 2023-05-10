@@ -16,20 +16,37 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
         .marker-border {
             background: #c30b82;
             border-radius: 50%;
-            height: 50px;
-            width: 50px;
+            height: 75px;
+            width: 75px;
         }
 
         .marker-icon {
             background-position: center;
-            background-size: 45px 45px;
+            background-size: 70px 70px;
             border-radius: 50%;
             position: absolute;
             left: 2.5px;
             top: 2.5px;
-            height: 45px;
-            width: 45px;
+            height: 70px;
+            width: 70px;
         }
+
+        .popup {
+            border-radius: 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 30px;
+            color: #000;
+            text-align: center;
+
+        }
+
+        .img {
+          width: 98%;
+          border: 5px solid #6C21DC;
+          border-radius: 10px;
+        }
+
+
       </style>
 
       <div id='map' class='map'></div>
@@ -46,7 +63,7 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
         let routeCoords = '${userLocation.longitude},${userLocation.latitude}:${carLocation.longitude},${carLocation.latitude}'
 
         // set the marker size
-        let size = 50
+        let size = 75
 
         // create map of area centered on current user location
         tt.setProductInfo('TomTom Maps React Native Demo', '1.0');
@@ -54,19 +71,21 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
           key:'${TOMTOM_DEV_KEY}',
           container: 'map',
           center: userCoords,
-          zoom: 17
+          zoom: 17,
+          poiSize: 'normal',
         });
 
         // Add marker when map loads
         map.on('load', function() {
           // user marker
           let userMarkerDiv = document.createElement('div')
-          userMarkerDiv.innerHTML = '<p> Hello there! Im a user </p>'
+          userMarkerDiv.innerHTML = '<p> You are here! </p>'
 
           let userMarkerPopup = new tt.Popup({
             closeButton: false,
             offset: size,
-            anchor: 'bottom'
+            anchor: 'bottom',
+            className: 'popup'
           }).setDOMContent(userMarkerDiv)
 
           let userMarkerBorder = document.createElement('div')
@@ -85,12 +104,14 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
 
           // car marker
           let carMarkerDiv = document.createElement('div')
-          carMarkerDiv.innerHTML = '<img src="${imgUri}" style="width: 30vw; height: 30vw;"/>'
+          carMarkerDiv.innerHTML = '<img src="${imgUri}" class="img"/>'
 
           let carMarkerPopup = new tt.Popup({
             closeButton: false,
             offset: size,
-            anchor: 'bottom'
+            anchor: 'bottom',
+            className: 'popup',
+            maxWidth: '500px'
           }).setDOMContent(carMarkerDiv)
 
           let carMarkerBorder = document.createElement('div')
@@ -125,8 +146,8 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
                   data: geojson
                 },
                 'paint': {
-                  'line-color': 'purple',
-                  'line-width': 6
+                  'line-color': '#6C21DC',
+                  'line-width': 4
                 }
               })
             })

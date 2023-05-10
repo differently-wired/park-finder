@@ -1,12 +1,11 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Notifications from "expo-notifications";
 
-
 export const takePicture = async () => {
   try {
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false, // avoid cropping
+      allowsEditing: true, // avoid cropping
       aspect: [4, 3],
       quality: 0.2,
     });
@@ -19,9 +18,11 @@ export const takePicture = async () => {
 
 export function getCurrentDateTime() {
   let today = new Date();
-  let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  return date+' '+time;
+  let date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  return date + " " + time;
 }
 
 // set up notifications
@@ -42,5 +43,4 @@ export const triggerNotifications = async (duration, reminder) => {
     },
     trigger: { seconds: triggerTime },
   });
-}; 
-
+};
