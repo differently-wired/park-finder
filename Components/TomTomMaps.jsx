@@ -6,6 +6,7 @@ import { MapTemplate } from "../templates/map-template";
 import * as Location from "expo-location";
 import { getParkedCarImageFromStorage, getUserAccount } from "../utils/dbApi";
 import { UserInfoContext } from "../contexts/UserInfo";
+import { getParkingsDetails } from "../utils/dbApi";
 
 export default function TomTomMaps() {
   // webRef to be used for scroller
@@ -40,8 +41,19 @@ export default function TomTomMaps() {
         })();
 
         // get car location from user/db
-        // If there is no pinned location. DO NOT set this and marker will not appear.
-        setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
+        (async () => {
+          try {
+            let parkingDetails = await getParkingsDetails();
+            setCarLocation({
+              longitude: parkingDetails.longitude,
+              latitude: parkingDetails.latitude,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        })();
+        // This is for testing/demo purposes only
+        // setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
       }
     })();
   }, [userInfo]);

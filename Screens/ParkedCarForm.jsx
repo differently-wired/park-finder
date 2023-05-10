@@ -18,7 +18,6 @@ import { UserInfoContext } from "../contexts/UserInfo";
 import { uploadParkedCarImageToStorage } from "../utils/dbApi";
 import { useNavigation } from "@react-navigation/native";
 
-
 const ParkedCarForm = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const [uid] = useState(userInfo.uid);
@@ -44,7 +43,6 @@ const ParkedCarForm = () => {
   }, []);
 
   const handleSubmit = useCallback(() => {
-
     const parkObj = {
       uid,
       latitude,
@@ -54,40 +52,42 @@ const ParkedCarForm = () => {
       notes,
       action: 1,
     };
-    console.log('parkObj', parkObj);
+    console.log("parkObj", parkObj);
 
     // 1) save to db
     addParking(parkObj)
       .then((data) => {
-        console.log('data', data);
-        console.log('Going to set notifications');
+        console.log("data", data);
+        console.log("Going to set notifications");
         // 2) set notifications
         return triggerNotifications(duration, reminder);
       })
       .then(() => {
-        console.log('Going to upload image');
+        console.log("Going to upload image");
         // 3) upload image
         return uploadParkedCarImageToStorage(imageUri);
       })
       .then(() => {
-        console.log('Going to home screen');
+        console.log("Going to home screen");
         // 4) go back to home screen
-        setUserInfo((current) => { return { ...current, activeParking: true } });
+        setUserInfo((current) => {
+          return { ...current, activeParking: true };
+        });
         navigation.navigate("Home");
       })
       .catch((error) => {
-        console.log('error', error);
+        console.log("error", error);
       });
-
   }, [uid, duration, reminder, notes, latitude, longitude, imageUri]);
 
   return (
     <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
-
         <Text style={styles.title}>ParkedCarForm</Text>
         <UploadImage imageUri={imageUri} setImageUri={setImageUri} />
-        <Text style={styles.subtitle}>Form incoming {getCurrentDateTime()}</Text>
+        <Text style={styles.subtitle}>
+          Form incoming {getCurrentDateTime()}
+        </Text>
         <Text style={styles.label}>I'm going to park</Text>
         <Picker
           selectedValue={duration}

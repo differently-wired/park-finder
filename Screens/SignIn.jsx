@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Keyboard,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -55,13 +55,14 @@ function SignIn() {
 
   useEffect(() => {
     if (!accessToken) return;
-    setLoading(true)
+    setLoading(true);
     signInWithGoogle(accessToken)
       .then((credential) => {
         const firebaseUser = credential.user;
         return Promise.all([
           firebaseUser,
           // don't return, just ignore on any errors
+          // This is resetting user data, however for the demo we made need to keep it so car activity resets
           createUserAccount(firebaseUser.uid, firebaseUser.displayName),
         ]);
       })
@@ -71,11 +72,11 @@ function SignIn() {
       .catch((error) => {
         onFailure(error);
         setLoading(false);
-      })
+      });
   }, [accessToken]);
 
   const handleSignIn = () => {
-    setLoading(true)
+    setLoading(true);
     signInWithEmail(email.trim(), password)
       .then((credential) => onSuccess(credential.user))
       .catch((error) => {
@@ -83,7 +84,6 @@ function SignIn() {
         setLoading(false);
       });
   };
-
 
   return (
     <KeyboardAvoidingView
@@ -138,9 +138,6 @@ function SignIn() {
       </View>
     </KeyboardAvoidingView>
   );
-
-
-
 }
 const styles = StyleSheet.create({
   container: {
