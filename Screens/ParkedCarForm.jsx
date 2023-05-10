@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     // alignContent: "center",
     // borderColor: "black",
     // borderWidth: 5,
-    height: 300,
+    height: 250,
     width: "100%",
   },
   pickerColumn: {
