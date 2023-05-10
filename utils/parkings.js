@@ -43,6 +43,7 @@ export async function addParking(parkObj) {
     "parking_hist",
     "parking_hist"
   );
+  
   await setDoc(userParkRef, parkDoc);
 
   return { userParkRef, ...parkDoc };

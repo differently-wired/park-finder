@@ -1,9 +1,18 @@
-import { Text, View, Button, Image, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 // import React from "react";
 import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 // import * as dbApi from "../utils/dbApi";
 import * as utils from "../utils/utils";
+
+const width = Dimensions.get("window").width;
 
 const UploadImage = ({ imageUri, setImageUri }) => {
   // const [imageUri, setImageUri] = useState(null);
@@ -44,10 +53,7 @@ const UploadImage = ({ imageUri, setImageUri }) => {
       {imageUri !== "no photo" && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />
-          {/* <Button
-            title="This will upload image, but need form submit too"
-            onPress={uploadImagePress}
-          /> */}
+          <Button title="Retake Picture" onPress={pickImage} />
         </>
       )}
     </View>
@@ -69,10 +75,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: 200,
-    height: 200,
-    marginTop: 20,
-    marginBottom: 20,
+    width: "100%",
+    height: 250,
+    marginTop: 0,
+    marginBottom: 0,
     alignSelf: "center",
   },
+  view: { padding: 0 },
 });
