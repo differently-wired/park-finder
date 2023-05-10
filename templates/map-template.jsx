@@ -127,7 +127,7 @@ export const MapTemplate = (
           carMarkerIcon.style.backgroundImage = 'url(https://png.pngtree.com/png-clipart/20190516/original/pngtree-car-icon-sign-png-image_3568162.jpg)'
           carMarkerBorder.appendChild(carMarkerIcon)
 
-          if (showCar) {
+          if (${showCar}) {
           let carMarker = new tt.Marker({
             element: carMarkerBorder
           })

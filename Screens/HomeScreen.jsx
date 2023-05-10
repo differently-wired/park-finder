@@ -9,13 +9,13 @@ import { ParkingSessionModal } from "../Components/Modals/ParkingSessionModal";
 
 export default function Homescreen() {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if (userInfo.activeParking === true) {
       setModalVisible(true);
     }
-  }, [userInfo]);
+  }, []);
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

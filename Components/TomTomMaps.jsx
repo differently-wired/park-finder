@@ -58,7 +58,6 @@ export default function TomTomMaps() {
         // setCarLocation({ longitude: -2.238253, latitude: 53.47214 });
       }
     })();
-    console.log(userInfo);
   }, [userInfo, showCar]);
 
   let text = "Waiting...";
