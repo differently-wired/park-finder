@@ -133,7 +133,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
-    backgroundColor: "yellow",
+    height: 760,
+    backgroundColor: "white",
   },
   title: {
     fontSize: 24,
@@ -148,10 +149,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 20,
     marginBottom: 10,
+    // backgroundColor: "blue",
   },
   picker: {
     width: 200,
     height: 40,
+    // backgroundColor: "yellow",
     marginBottom: 20,
   },
   button: {
