@@ -37,6 +37,7 @@ export const MapTemplate = (userLocation, carLocation, tracking, imgUri) => {
             font-size: 30px;
             color: #000;
             text-align: center;
+
         }
 
         .img {
