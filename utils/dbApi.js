@@ -10,7 +10,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 export const createUserAccount = async (uid, username) => {
   console.log("Creating user account", uid)
   // create user document
-  const docRef = doc(FIRESTORE_DB, "user_list", uid);
+  const docRef = doc(FIRESTORE_DB, "users_list", uid);
   const data = {
     username: username,
     defaultParkDuration: 60,
@@ -22,7 +22,7 @@ export const createUserAccount = async (uid, username) => {
   // create parking info sub document
   // const parkingRef = doc(
   //   FIRESTORE_DB,
-  //   "user_list",
+  //   "users_list",
   //   uid,
   //   "parking_info",
   //   "parking_info"
@@ -32,7 +32,7 @@ export const createUserAccount = async (uid, username) => {
 
 export const getUserAccount = async (uid) => {
   console.log("Getting user account", uid)
-  const userRef = doc(FIRESTORE_DB, "user_list", uid);
+  const userRef = doc(FIRESTORE_DB, "users_list", uid);
   return getDoc(userRef).then((userSnap) => {
     if (userSnap.exists()) {
       return userSnap.data();

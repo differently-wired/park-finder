@@ -22,14 +22,14 @@ export async function addParking(parkObj) {
   };
   const { id } = await addDoc(parkRef, parkDoc);
 
-  const userRef = doc(FIRESTORE_DB, 'user_list', parkObj.uid);
+  const userRef = doc(FIRESTORE_DB, 'users_list', parkObj.uid);
   await updateDoc(
     userRef,
     { activeParking: parkObj.action == 1 },
   );
 
   const userParkRef = doc(
-    FIRESTORE_DB, 'user_list', parkObj.uid,
+    FIRESTORE_DB, 'users_list', parkObj.uid,
     'parking_hist',
     id
   )
@@ -43,7 +43,7 @@ export async function getUserParkedCar(uid) {
 
   const userParkRef = collection(
     FIRESTORE_DB,
-    'user_list',
+    'users_list',
     uid,
     'parking_hist'
   );
