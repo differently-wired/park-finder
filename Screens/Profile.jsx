@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserInfoContext } from "../contexts/UserInfo";
 import UploadProfilePic from "../Components/UploadProfilePic";
 import { uploadProfileImageToStorage } from '../utils/dbApi'
@@ -10,19 +10,28 @@ export const Profile = () => {
   const { defaultParkDuration, defaultReminder, email, username } = userInfo;
   const [imageUri, setImageUri] = useState(null)
 
+  useEffect(() => {
+    fetchProfileImage()
+  }, [])
+
+  const fetchProfileImage = async () => {
+    try {
+      const imageUrl = await getProfileImageFromStorage();
+      setImageUri(imageUrl)
+    } catch (error) {
+      console.log('Error getting profile image:', error)
+    }
+  }
   const handleImage = async (uri) => {
-
-
+    console.log(uri)
     try {
       setImageUri(uri)
-      await uploadProfileImageToStorage(uri)
-      console.log(uri, 'Handle image uri')
+      await uploadProfileImageToStorage(uri);
     } catch (error) {
-      console.log(error)
+      console.log('Error uploading profile image:', error)
     }
 
   }
-
 
   return (
     <View style={styles.container}>

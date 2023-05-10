@@ -4,16 +4,6 @@ import { Timestamp, collection, doc, addDoc, setDoc, query, orderBy, limit, getD
 export async function addParking(parkObj) {
   console.log("Add Parking", parkObj.uid)
 
-  // uid
-  // datetime
-  // city
-  // latitude
-  // longitude
-  // action
-  // duration
-  // reminder
-  // notes
-  // pcitureUrl
 
   const parkRef = collection(FIRESTORE_DB, 'parkings')
   const parkDoc = {
