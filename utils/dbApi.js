@@ -90,3 +90,11 @@ export const updateUserProfileURL = async (url) => {
   const user = FIREBASE_AUTH.currentUser;
   await updateProfile(user, { photoURL: url });
 };
+
+// Check if document exists ----------------------------------------------------
+
+export const checkIfDocumentExists = async (uid) => {
+  const userRef = doc(FIRESTORE_DB, "users_list", uid);
+  const userSnap = await getDoc(userRef);
+  return userSnap.exists();
+};
