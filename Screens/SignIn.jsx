@@ -1,3 +1,4 @@
+import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
   View,
@@ -10,7 +11,6 @@ import {
   Keyboard,
   ActivityIndicator,
 } from "react-native";
-import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserInfoContext } from "../contexts/UserInfo";
 import {
@@ -34,6 +34,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [request, accessToken, promptAsync] = useGoogleAuth();
   const [loading, setLoading] = useState(false);
+  const [showGoogleSignIn, setShowGoogleSignIn] = useState(false);
   const navigation = useNavigation();
 
   function onSuccess(firebaseUser) {
@@ -45,7 +46,7 @@ function SignIn() {
           ...user,
         });
         setLoading(false);
-        navigation.replace("Home Screen"); // Use replace instead of navigate
+        navigation.replace("Home Screen");
       })
       .catch((error) => {
         onFailure(error);
@@ -95,60 +96,80 @@ function SignIn() {
       });
   };
 
+  useEffect(() => {
+    if (request) {
+      setShowGoogleSignIn(true);
+    }
+  }, [request]);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <Text style={styles.heading}>Welcome</Text>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            style={styles.Input}
-          />
-          <TextInput
-            placeholder="password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            style={styles.Input}
-            secureTextEntry
-          />
-        </View>
-      </TouchableWithoutFeedback>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleSignIn}
-          style={[styles.button, styles.buttonOutline]}
-          disabled={loading}
-        >
-          {loading ? (
-            <LoadingScreen /> // Render LoadingScreen component
-          ) : (
-            <Text style={styles.buttonOutlineText}>Sign in</Text>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity disabled={!request} onPress={() => promptAsync()}>
-          <View style={styles.GoogleButton}>
-            <Image
-              style={styles.GoogleImage}
-              source={require("../assets/google-img.png")}
-            />
-            <Text style={styles.GoogleButtonText}>Sign in with Google</Text>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <Text style={styles.heading}>Welcome</Text>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="email"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                style={styles.Input}
+              />
+              <TextInput
+                placeholder="password"
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                style={styles.Input}
+                secureTextEntry
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={handleSignIn}
+              style={[styles.button, styles.buttonOutline]}
+              disabled={loading}
+            >
+              {loading ? (
+                <LoadingScreen />
+              ) : (
+                <Text style={styles.buttonOutlineText}>Sign in</Text>
+              )}
+            </TouchableOpacity>
+            {showGoogleSignIn && (
+              <TouchableOpacity
+                disabled={!request}
+                onPress={() => promptAsync()}
+              >
+                <View style={styles.GoogleButton}>
+                  <Image
+                    style={styles.GoogleImage}
+                    source={require("../assets/google-img.png")}
+                  />
+                  <Text style={styles.GoogleButtonText}>
+                    Sign in with Google
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.pageLink}>
-        <Text>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Sign Up")}>
-          <Text style={styles.signUp}> Sign Up</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.pageLink}>
+            <Text>Don't have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Sign Up")}>
+              <Text style={styles.signUp}> Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </KeyboardAvoidingView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     fontSize: 53,
@@ -156,8 +177,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    // width: Dimensions.get("window"),
-    // height: Dimensions.get("window"),
   },
   heading: { color: "black", fontSize: 40, margin: 20 },
   user: {
@@ -170,7 +189,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 15,
     marginTop: 25,
-    // padding: 55,
   },
   inputContainer: {
     width: "80%",
@@ -192,7 +210,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 2,
     borderColor: "white",
-    backgroundColor: "#24a0ed",
+    backgroundColor: "#6C21DC",
     marginBottom: 30,
   },
   buttonOutlineText: {
@@ -238,3 +256,4 @@ const styles = StyleSheet.create({
 });
 
 export default SignIn;
+

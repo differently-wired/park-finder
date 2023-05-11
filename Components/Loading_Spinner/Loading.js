@@ -15,7 +15,7 @@ function LoadingScreen() {
         const spinAnimation = Animated.loop(
             Animated.timing(spinValue, {
                 toValue: 1,
-                duration: 1500,
+                duration: 400,
                 useNativeDriver: true,
             })
         );
@@ -23,7 +23,7 @@ function LoadingScreen() {
         const colorAnimation = Animated.loop(
             Animated.timing(colorValue, {
                 toValue: 1,
-                duration: 1500,
+                duration: 5000,
                 useNativeDriver: false,
             })
         );
@@ -57,7 +57,7 @@ function LoadingScreen() {
                             style={{
                                 transform: [{ rotate: spin }],
                                 backgroundColor: currentColor,
-                                borderRadius: 8, // Rounded edges
+                                borderRadius: 8,
                             }}
                         >
                             <ActivityIndicator color="white" size="large" />
