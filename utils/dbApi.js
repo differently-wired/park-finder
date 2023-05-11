@@ -5,10 +5,11 @@ import {
   FIREBASE_AUTH,
 } from "../firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
 
 // create user account and user document ---------------------------------------
 export const createUserAccount = async (uid, username) => {
-  console.log("Creating user account", uid)
+  console.log("Creating user account", uid);
   // create user document
   const docRef = doc(FIRESTORE_DB, "users_list", uid);
   const data = {
@@ -31,7 +32,7 @@ export const createUserAccount = async (uid, username) => {
 };
 
 export const getUserAccount = async (uid) => {
-  console.log("Getting user account", uid)
+  console.log("Getting user account", uid);
   const userRef = doc(FIRESTORE_DB, "users_list", uid);
   return getDoc(userRef).then((userSnap) => {
     if (userSnap.exists()) {
@@ -55,19 +56,16 @@ export const uploadParkedCarImageToStorage = async (imageUri) => {
 export const getParkedCarImageFromStorage = async () => {
   const uid = FIREBASE_AUTH.currentUser.uid;
   const imageRef = ref(FIREBASE_STORAGE, `parked_cars/${uid}/parked_car.jpg`);
-  const url = await getDownloadURL(imageRef);
-  return url;
+  const uri = await getDownloadURL(imageRef);
+  return uri;
 };
 // Upload profile pic to firebase storage --------------------------------------------
 export const uploadProfileImageToStorage = async (imageUri) => {
-
   const response = await fetch(imageUri);
   const blob = await response.blob();
   const uid = FIREBASE_AUTH.currentUser.uid;
   const imageRef = ref(FIREBASE_STORAGE, `profile_pics/${uid}/profile_pic.jpg`);
   await uploadBytes(imageRef, blob);
-
-
 };
 
 // Get profile image from firebase storage --------------------------------------------
@@ -75,12 +73,20 @@ export const uploadProfileImageToStorage = async (imageUri) => {
 export const getProfileImageFromStorage = async () => {
   try {
     const uid = FIREBASE_AUTH.currentUser.uid;
-    const imageRef = ref(FIREBASE_STORAGE, `profile_pics/${uid}/profile_pic.jpg`)
-    const url = await getDownloadURL(imageRef)
-    return url
+    const imageRef = ref(
+      FIREBASE_STORAGE,
+      `profile_pics/${uid}/profile_pic.jpg`
+    );
+    const uri = await getDownloadURL(imageRef);
+    return uri;
   } catch (error) {
-    return 'error'
+    return "error";
   }
+};
 
-}
+// Update user profileURL ------------------------------------------------------
 
+export const updateUserProfileURL = async (url) => {
+  const user = FIREBASE_AUTH.currentUser;
+  await updateProfile(user, { photoURL: url });
+};

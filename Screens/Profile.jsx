@@ -2,43 +2,47 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { UserInfoContext } from "../contexts/UserInfo";
 import UploadProfilePic from "../Components/UploadProfilePic";
-import { uploadProfileImageToStorage } from '../utils/dbApi'
-import { getProfileImageFromStorage } from '../utils/dbApi'
+import {
+  uploadProfileImageToStorage,
+  updateUserProfileURL,
+} from "../utils/dbApi";
+import { getProfileImageFromStorage } from "../utils/dbApi";
+import { FIREBASE_AUTH } from "../firebaseConfig";
 
 export const Profile = () => {
   const { userInfo } = useContext(UserInfoContext);
   const { defaultParkDuration, defaultReminder, email, username } = userInfo;
-  const [imageUri, setImageUri] = useState(null)
+  const [imageUri, setImageUri] = useState(FIREBASE_AUTH.currentUser.photoURL);
 
-  useEffect(() => {
-    fetchProfileImage()
-  }, [])
+  // useEffect(() => {
+  //   fetchProfileImage();
+  // }, []);
 
-  const fetchProfileImage = async () => {
-    try {
-      const imageUrl = await getProfileImageFromStorage();
-      setImageUri(imageUrl)
-    } catch (error) {
-      console.log('Error getting profile image:', error)
-    }
-  }
+  // const fetchProfileImage = async () => {
+  //   try {
+  //     const userImageUri = await getProfileImageFromStorage();
+  //     setImageUri(userImageUri);
+  //   } catch (error) {
+  //     console.log("Error getting profile image:", error);
+  //   }
+  // };
   const handleImage = async (uri) => {
-    console.log(uri)
+    console.log(uri);
     try {
-      setImageUri(uri)
+      setImageUri(uri);
       await uploadProfileImageToStorage(uri);
+      await updateUserProfileURL(uri);
     } catch (error) {
-      console.log('Error uploading profile image:', error)
+      console.log("Error uploading profile image:", error);
     }
-
-  }
+  };
 
   return (
     <View style={styles.container}>
       <Image
         style={styles.profilePic}
         source={{
-          uri: imageUri || "https://pbs.twimg.com/profile_images/993587234187161601/vTY3pvko_400x400.jpg",
+          uri: imageUri,
         }}
       />
       <UploadProfilePic onImageSelect={handleImage} />
