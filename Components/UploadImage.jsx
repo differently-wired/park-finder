@@ -1,9 +1,18 @@
-import { Text, View, Button, Image, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 // import React from "react";
 import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 // import * as dbApi from "../utils/dbApi";
 import * as utils from "../utils/utils";
+
+const width = Dimensions.get("window").width;
 
 const UploadImage = ({ imageUri, setImageUri }) => {
   // const [imageUri, setImageUri] = useState(null);
@@ -22,14 +31,9 @@ const UploadImage = ({ imageUri, setImageUri }) => {
     pickImage();
   }, []);
 
-  // useEffect(() => {
-  //   if (uploaded) {
-  //     alert("Image uploaded!");
-  //   }
-  // }, [uploaded]);
-
   const pickImage = () => {
-    utils.takePicture()
+    utils
+      .takePicture()
       .then((result) => {
         if (!result.assets[0].cancelled) {
           console.log("uploadImg", result.assets[0].uri);
@@ -38,30 +42,18 @@ const UploadImage = ({ imageUri, setImageUri }) => {
       })
       // remove Possible Unhandled Promise Rejection warnings
       .catch((error) => {
-        console.log('pickImage', error);
-      })
+        console.log("pickImage", error);
+      });
   };
-
-  // const uploadImagePress = async () => {
-  //   try {
-  //     await dbApi.uploadParkedCarImageToStorage(imageUri);
-  //     setUploaded(true);
-  //   } catch (err) {
-  //     alert(err);
-  //   }
-  // };
 
   return (
     <View>
       {/* <Text style={styles.text}>UploadImage</Text> */}
-      <Button title="Retake Picture" onPress={pickImage} />
-      {imageUri && (
+      {/* <Button title="Retake Picture" onPress={pickImage} /> */}
+      {imageUri !== "no photo" && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />
-          {/* <Button
-            title="This will upload image, but need form submit too"
-            onPress={uploadImagePress}
-          /> */}
+          <Button title="Retake Picture" onPress={pickImage} />
         </>
       )}
     </View>
@@ -83,10 +75,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: 200,
-    height: 200,
-    marginTop: 20,
-    marginBottom: 20,
+    width: "100%",
+    height: 250,
+    marginTop: 0,
+    marginBottom: 0,
     alignSelf: "center",
   },
+  view: { padding: 0 },
 });

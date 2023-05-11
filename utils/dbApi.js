@@ -31,6 +31,8 @@ export const createUserAccount = async (uid, username) => {
   // await setDoc(parkingRef, { activeParking: false });
 };
 
+// Get user account ---------------------------------------------------------
+
 export const getUserAccount = async (uid) => {
   console.log("Getting user account", uid);
   const userRef = doc(FIRESTORE_DB, "users_list", uid);
@@ -41,6 +43,18 @@ export const getUserAccount = async (uid) => {
       return Promise.reject({ error: "User not found" });
     }
   });
+};
+
+// Get parkings ---------------------------------------------------------
+export const getParkingsDetails = async () => {
+  const uid = FIREBASE_AUTH.currentUser.uid;
+  const userRef = doc(FIRESTORE_DB, "parkings", uid);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    return userSnap.data();
+  } else {
+    return Promise.reject({ error: "User not found" });
+  }
 };
 
 // Upload image to firebase storage --------------------------------------------
