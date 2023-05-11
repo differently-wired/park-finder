@@ -18,11 +18,15 @@ import {
   signInWithGoogle,
   signInWithEmail,
 } from "../utils/auth";
-import { createUserAccount, getUserAccount } from "../utils/dbApi";
-import LoadingScreen from "../Components/Loading_Spinner/Loading.js";
 import * as WebBrowser from "expo-web-browser";
-
-// WebBrowser.maybeCompleteAuthSession();
+import {
+  createUserAccount,
+  getUserAccount,
+  checkIfDocumentExists,
+} from "../utils/dbApi";
+import LoadingScreen from "../Components/Loading_Spinner/Loading.js";
+import { FIRESTORE_DB } from "../firebaseConfig";
+WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
   const { setUserInfo } = useContext(UserInfoContext);
@@ -61,9 +65,16 @@ function SignIn() {
     signInWithGoogle(accessToken)
       .then((credential) => {
         const firebaseUser = credential.user;
+        const promiseArray = [];
+        if (checkIfDocumentExists(firebaseUser.uid)) {
+          promiseArray.push(
+            createUserAccount(firebaseUser.uid, firebaseUser.displayName)
+          );
+        }
         return Promise.all([
           firebaseUser,
-          createUserAccount(firebaseUser.uid, firebaseUser.displayName),
+          // don't return, just ignore on any errors
+          promiseArray,
         ]);
       })
       .then(([firebaseUser, _]) => {
