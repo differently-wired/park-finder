@@ -22,7 +22,7 @@ import { createUserAccount, getUserAccount } from "../utils/dbApi";
 import LoadingScreen from "../Components/Loading_Spinner/Loading.js";
 import * as WebBrowser from "expo-web-browser";
 
-WebBrowser.maybeCompleteAuthSession();
+// WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
   const { setUserInfo } = useContext(UserInfoContext);
