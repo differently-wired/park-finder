@@ -49,7 +49,7 @@ const UploadImage = ({ imageUri, setImageUri }) => {
   return (
     <View>
       {/* <Text style={styles.text}>UploadImage</Text> */}
-      <Button title="Retake Picture" onPress={pickImage} />
+      {/* <Button title="Retake Picture" onPress={pickImage} /> */}
       {imageUri !== "no photo" && (
         <>
           <Image source={{ uri: imageUri }} style={styles.image} />

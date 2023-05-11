@@ -1,20 +1,51 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useContext } from "react";
-
+import { useContext, useEffect, useState } from "react";
 import { UserInfoContext } from "../contexts/UserInfo";
+import UploadProfilePic from "../Components/UploadProfilePic";
+import {
+  uploadProfileImageToStorage,
+  updateUserProfileURL,
+} from "../utils/dbApi";
+import { getProfileImageFromStorage } from "../utils/dbApi";
+import { FIREBASE_AUTH } from "../firebaseConfig";
 
-const Profile = () => {
+export const Profile = () => {
   const { userInfo } = useContext(UserInfoContext);
   const { defaultParkDuration, defaultReminder, email, username } = userInfo;
+  const [imageUri, setImageUri] = useState(FIREBASE_AUTH.currentUser.photoURL);
+
+  // useEffect(() => {
+  //   fetchProfileImage();
+  // }, []);
+
+  // const fetchProfileImage = async () => {
+  //   try {
+  //     const userImageUri = await getProfileImageFromStorage();
+  //     setImageUri(userImageUri);
+  //   } catch (error) {
+  //     console.log("Error getting profile image:", error);
+  //   }
+  // };
+  const handleImage = async (uri) => {
+    console.log(uri);
+    try {
+      setImageUri(uri);
+      await uploadProfileImageToStorage(uri);
+      await updateUserProfileURL(uri);
+    } catch (error) {
+      console.log("Error uploading profile image:", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Image
         style={styles.profilePic}
         source={{
-          uri: "https://pbs.twimg.com/profile_images/993587234187161601/vTY3pvko_400x400.jpg",
+          uri: imageUri,
         }}
       />
+      <UploadProfilePic onImageSelect={handleImage} />
       <Text style={styles.username}>{username}</Text>
       <Text style={styles.email}>{email}</Text>
       <Text style={styles.text}>
