@@ -65,16 +65,11 @@ function SignIn() {
     signInWithGoogle(accessToken)
       .then((credential) => {
         const firebaseUser = credential.user;
-        const promiseArray = [];
-        if (checkIfDocumentExists(firebaseUser.uid)) {
-          promiseArray.push(
-            createUserAccount(firebaseUser.uid, firebaseUser.displayName)
-          );
-        }
+
         return Promise.all([
           firebaseUser,
           // don't return, just ignore on any errors
-          promiseArray,
+          createUserAccount(firebaseUser.uid, firebaseUser.displayName),
         ]);
       })
       .then(([firebaseUser, _]) => {
@@ -256,4 +251,3 @@ const styles = StyleSheet.create({
 });
 
 export default SignIn;
-
