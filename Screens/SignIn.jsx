@@ -19,8 +19,13 @@ import {
   signInWithEmail,
 } from "../utils/auth";
 import * as WebBrowser from "expo-web-browser";
-import { createUserAccount, getUserAccount } from "../utils/dbApi";
+import {
+  createUserAccount,
+  getUserAccount,
+  checkIfDocumentExists,
+} from "../utils/dbApi";
 import LoadingScreen from "../Components/Loading_Spinner/Loading.js";
+import { FIRESTORE_DB } from "../firebaseConfig";
 WebBrowser.maybeCompleteAuthSession();
 
 function SignIn() {
@@ -59,11 +64,16 @@ function SignIn() {
     signInWithGoogle(accessToken)
       .then((credential) => {
         const firebaseUser = credential.user;
+        const promiseArray = [];
+        if (checkIfDocumentExists(firebaseUser.uid)) {
+          promiseArray.push(
+            createUserAccount(firebaseUser.uid, firebaseUser.displayName)
+          );
+        }
         return Promise.all([
           firebaseUser,
           // don't return, just ignore on any errors
-          // This is resetting user data, however for the demo we made need to keep it so car activity resets
-          createUserAccount(firebaseUser.uid, firebaseUser.displayName),
+          promiseArray,
         ]);
       })
       .then(([firebaseUser, _]) => {
