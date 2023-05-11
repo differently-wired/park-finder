@@ -34,7 +34,6 @@ const Tabs = () => {
         component={HomeScreen}
         options={({ route }) => ({
           tabBarLabel: "Home",
-          //   tabBarVisible: route.state && route.state.index === 0,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="home-outline"
@@ -48,11 +47,6 @@ const Tabs = () => {
         name="Park Car"
         component={ParkedCarForm}
         options={({ route }) => ({
-          //   tabBarVisible: getTabBarVisibility(route),
-          // Or Hide tabbar when push!
-          // https://github.com/react-navigation/react-navigation/issues/7677
-          // tabBarVisible: route.state && route.state.index === 0,
-          //   tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="car-outline" color={color} size={size} />
           ),
@@ -71,26 +65,33 @@ const Tabs = () => {
   );
 };
 
-function AppNavigation(props) {
+function AppNavigation() {
+  const [loading, setLoading] = useState(false);
+
   return (
     <Stack.Navigator
       initialRouteName="Sign In"
-      // screenOptions={{
-      //   headerShown: false,
-      // }}
-      // screenOptions={{ headerRight: () => <ActionBarImage /> }}
-      // screenOptions={{ title: "" }}
-      screenOptions={{
-        headerTitle: () => <LogoTitle />,
+      screenOptions={({ navigation }) => ({
+        headerTitle: () => (loading ? null : <LogoTitle />),
         headerLeft: () => null,
-      }}
+        headerShown: !loading,
+        headerStyle: {
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+      })}
     >
       <Stack.Screen name="Sign In" component={SignIn} />
       <Stack.Screen name="Sign Up" component={SignUp} />
-      <Stack.Screen name="Home Screen" component={Tabs} />
+      <Stack.Screen name="Home Screen">
+        {(props) => (
+          <Tabs {...props} setLoading={setLoading} loading={loading} />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="ParkedCarForm" component={ParkedCarForm} />
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 }
+
 export default AppNavigation;
