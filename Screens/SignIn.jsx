@@ -62,28 +62,45 @@ function SignIn() {
   useEffect(() => {
     if (!accessToken) return;
     setLoading(true);
-    signInWithGoogle(accessToken)
-      .then((credential) => {
+    (async () => {
+      try {
+        const credential = await signInWithGoogle(accessToken);
         const firebaseUser = credential.user;
-        const promiseArray = [];
-        if (checkIfDocumentExists(firebaseUser.uid)) {
-          promiseArray.push(
-            createUserAccount(firebaseUser.uid, firebaseUser.displayName)
+        const userCheck = await checkIfDocumentExists(firebaseUser.uid);
+        if (!userCheck) {
+          const user = await createUserAccount(
+            firebaseUser.uid,
+            firebaseUser.displayName
           );
+          onSuccess(firebaseUser);
+        } else {
+          onSuccess(firebaseUser);
         }
-        return Promise.all([
-          firebaseUser,
-          // don't return, just ignore on any errors
-          promiseArray,
-        ]);
-      })
-      .then(([firebaseUser, _]) => {
-        onSuccess(firebaseUser);
-      })
-      .catch((error) => {
+      } catch (error) {
         onFailure(error);
         setLoading(false);
-      });
+      }
+    })();
+
+    // if (!accessToken) return;
+    // setLoading(true);
+    // signInWithGoogle(accessToken)
+    //   .then((credential) => {
+    //     const firebaseUser = credential.user;
+
+    //     return Promise.all([
+    //       firebaseUser,
+    //       // don't return, just ignore on any errors
+    //       // createUserAccount(firebaseUser.uid, firebaseUser.displayName),
+    //     ]);
+    //   })
+    //   .then(([firebaseUser, _]) => {
+    //     onSuccess(firebaseUser);
+    //   })
+    //   .catch((error) => {
+    //     onFailure(error);
+    //     setLoading(false);
+    //   });
   }, [accessToken]);
 
   const handleSignIn = () => {
@@ -256,4 +273,3 @@ const styles = StyleSheet.create({
 });
 
 export default SignIn;
-

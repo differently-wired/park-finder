@@ -7,6 +7,8 @@ import { UserInfoProvider } from "./contexts/UserInfo";
 import AppNavigation from "./navigation/AppNavigation";
 import LoadingScreen from "./Components/Loading_Spinner/Loading";
 
+import { LogBox } from "react-native"; //hide google auth warning
+
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -17,6 +19,8 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+  LogBox.ignoreLogs(["useProxy"]); //hide google auth warning
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -48,14 +52,16 @@ export default function App() {
     };
 
     const initializeApp = async () => {
-
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       setIsLoading(false);
     };
 
     const initialize = async () => {
-      await Promise.all([getNotificationPermissions(), getLocationPermissions()]);
+      await Promise.all([
+        getNotificationPermissions(),
+        getLocationPermissions(),
+      ]);
       await initializeApp();
     };
 
